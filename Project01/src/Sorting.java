@@ -55,9 +55,35 @@ class QuickSort implements IntegerSort {
 
 	public void sort(int[] array) {
 		// ... fill in ...
+		recursive(0, array.length - 1, array);
 	}
-	
-	
+
+	private void swap(int x, int y, int[] arr) {
+		int temp = arr[x];
+		arr[x] = arr[y];
+		arr[y] = temp;
+	}
+
+	private void recursive(int start, int end, int[] arr) {
+		if (start >= end)
+			return;
+		int mid = arr[end];
+		int left = start, right = end - 1;
+		while (left < right) {
+			while (arr[left] < mid && left < right)
+				left++;
+			while (arr[right] >= mid && left < right)
+				right--;
+			swap(left, right, arr);
+		}
+		if (arr[left] >= arr[end])
+			swap(left, end, arr);
+		else
+			left++;
+		recursive(start, left - 1, arr);
+		recursive(left + 1, end, arr);
+	}
+
 }
 
 /**
@@ -70,8 +96,30 @@ class MergeSort implements IntegerSort {
 	}
 
 	public void sort(int[] array) {
-		// ... fill in ...
+		int len = array.length;
+		int[] result = new int[len];
+		recursive(array, result, 0, len - 1);
 	}
+
+	private void recursive(int[] arr, int[] result, int start, int end) {
+		if (start >= end)
+			return;
+		int len = end - start, mid = (len >> 1) + start;
+		int start1 = start, end1 = mid;
+		int start2 = mid + 1, end2 = end;
+		recursive(arr, result, start1, end1);
+		recursive(arr, result, start2, end2);
+		int k = start;
+		while (start1 <= end1 && start2 <= end2)
+			result[k++] = arr[start1] < arr[start2] ? arr[start1++] : arr[start2++];
+		while (start1 <= end1)
+			result[k++] = arr[start1++];
+		while (start2 <= end2)
+			result[k++] = arr[start2++];
+		for (k = start; k <= end; k++)
+			arr[k] = result[k];
+	}
+
 }
 
 /**
