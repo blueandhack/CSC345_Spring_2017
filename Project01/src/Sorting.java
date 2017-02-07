@@ -356,7 +356,7 @@ class Sorting {
 
 		// New Add
 		try {
-			FileWriter fw = new FileWriter("run_2.csv", true);
+			FileWriter fw = new FileWriter("run_1.csv", true);
 			StringBuilder sb = new StringBuilder();
 
 			sb.append(record[0]);
