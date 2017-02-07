@@ -1,3 +1,7 @@
+
+import java.io.FileWriter;
+import java.io.IOException;
+
 /**
  * @author Yujia Lin
  * CSC 345 Spring 2017 Project 1:  Sorting empirical measurements
@@ -245,7 +249,8 @@ class Sorting {
 	 * correct sorting. If the results disagree, this will print an error
 	 * message and return nonzero status.
 	 */
-	public static void main(String[] argv) {
+	// Changed the main to class name
+	public Sorting(String[] argv) {
 		// User must invoke the program with at least one command-line
 		// argument, the array size, i.e., the number of integers in
 		// the sequence, which need to be put into sorted order.
@@ -288,6 +293,9 @@ class Sorting {
 
 		// storage for test data and timing data
 		int[][] data = new int[reps][n], answerkey = new int[reps][n];
+
+		// New Add
+		float[] record = new float[6];
 
 		// Loop through all algorithms
 		for (int alg = 0; alg < algorithm_count; ++alg) {
@@ -335,9 +343,42 @@ class Sorting {
 			// Print the time measurement for this method.
 			System.out.print(
 					"\t " + methods[alg].name() + " time (ms): " + (endtime - starttime) / (float) (reps - trigger));
+
+			// New Add
+			record[alg] = (endtime - starttime) / (float) (reps - trigger);
 		}
 
 		// Print the size of the test arrays:
 		System.out.println("\t size: " + n);
+
+		// New Add
+		record[5] = n;
+
+		// New Add
+		try {
+			FileWriter fw = new FileWriter("run_2.csv", true);
+			StringBuilder sb = new StringBuilder();
+
+			sb.append(record[0]);
+			sb.append(",");
+			sb.append(record[1]);
+			sb.append(",");
+			sb.append(record[2]);
+			sb.append(",");
+			sb.append(record[3]);
+			sb.append(",");
+			sb.append(record[4]);
+			sb.append(",");
+			sb.append(record[5]);
+			sb.append("\n");
+
+			fw.write(sb.toString());
+			fw.close();
+
+		} catch (IOException e) {
+
+			e.printStackTrace();
+		}
+
 	}
 }
