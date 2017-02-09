@@ -59,36 +59,10 @@ class QuickSort implements IntegerSort {
 	}
 
 	public void sort(int[] array) {
-		// ... fill in ...
-		// recursive(0, array.length - 1, array);
 		qsort(array, 0, array.length - 1);
 	}
 
-	// private void swap(int x, int y, int[] arr) {
-	// int temp = arr[x];
-	// arr[x] = arr[y];
-	// arr[y] = temp;
-	// }
-	//
-	// private void recursive(int start, int end, int[] arr) {
-	// if (start >= end)
-	// return;
-	// int mid = arr[end];
-	// int left = start, right = end - 1;
-	// while (left < right) {
-	// while (arr[left] < mid && left < right)
-	// left++;
-	// while (arr[right] >= mid && left < right)
-	// right--;
-	// swap(left, right, arr);
-	// }
-	// if (arr[left] >= arr[end])
-	// swap(left, end, arr);
-	// else
-	// left++;
-	// recursive(start, left - 1, arr);
-	// recursive(left + 1, end, arr);
-	// }
+	// From Data Structures and Algorithm Analysis - Figure 7.11 and 7.12
 	private void qsort(int[] A, int i, int j) { // Quicksort
 		int pivotindex = findpivot(A, i, j); // Pick a pivot
 		swap(A, pivotindex, j); // Stick pivot at end
@@ -139,28 +113,12 @@ class MergeSort implements IntegerSort {
 	public void sort(int[] array) {
 		int len = array.length;
 		int[] result = new int[len];
-		// recursive(array, result, 0, len - 1);
 		mergesort(array, result, 0, len - 1);
 	}
 
-	// private void recursive(int[] arr, int[] result, int start, int end) {
-	// if (start >= end)
-	// return;
-	// int len = end - start, mid = (len >> 1) + start;
-	// int start1 = start, end1 = mid;
-	// int start2 = mid + 1, end2 = end;
-	// recursive(arr, result, start1, end1);
-	// recursive(arr, result, start2, end2);
-	// int k = start;
-	// while (start1 <= end1 && start2 <= end2)
-	// result[k++] = arr[start1] < arr[start2] ? arr[start1++] : arr[start2++];
-	// while (start1 <= end1)
-	// result[k++] = arr[start1++];
-	// while (start2 <= end2)
-	// result[k++] = arr[start2++];
-	// for (k = start; k <= end; k++)
-	// arr[k] = result[k];
-	// }
+	/*
+	 * From Data Structures and Algorithm Analysis - Figure 7.9
+	 */
 	void mergesort(int[] A, int[] temp, int l, int r) {
 		int mid = (l + r) / 2; // Select midpoint
 		if (l == r) {
@@ -407,18 +365,18 @@ class Sorting {
 					"\t " + methods[alg].name() + " time (ms): " + (endtime - starttime) / (float) (reps - trigger));
 
 			// New Add
-			record[alg] = (endtime - starttime) / (float) (reps - trigger);
+			record[alg + 1] = (endtime - starttime) / (float) (reps - trigger);
 		}
 
 		// Print the size of the test arrays:
 		System.out.println("\t size: " + n);
 
-		// New Add
-		record[5] = n;
+		// Record size
+		record[0] = n;
 
-		// New Add
+		// Put records to csv file
 		try {
-			FileWriter fw = new FileWriter("run_test.csv", true);
+			FileWriter fw = new FileWriter("run_02.csv", true);
 			StringBuilder sb = new StringBuilder();
 
 			sb.append(record[0]);
@@ -445,7 +403,7 @@ class Sorting {
 	}
 
 	public static void main(String[] args) {
-		for (int i = 1; i <= 1000; i++) {
+		for (int i = 1; i <= 500; i++) {
 			String[] string = new String[1];
 			string[0] = "" + i;
 			Sorting sort = new Sorting(string);
