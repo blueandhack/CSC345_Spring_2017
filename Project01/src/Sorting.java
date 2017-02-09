@@ -77,11 +77,12 @@ class QuickSort implements IntegerSort {
 		}
 	}
 
+	// The method will find pivot then return it
 	private int findpivot(int[] A, int i, int j) {
 		return (i + j) / 2;
 	}
 
-	int partition(int[] A, int l, int r, int pivot) {
+	private int partition(int[] A, int l, int r, int pivot) {
 		do { // Move bounds inward until they meet
 			while (A[++l] < pivot)
 				;
@@ -93,6 +94,7 @@ class QuickSort implements IntegerSort {
 		return l; // Return first position in right partition
 	}
 
+	// The method will swap two elements in the array
 	private void swap(int[] arr, int x, int y) {
 		int temp = arr[x];
 		arr[x] = arr[y];
@@ -119,7 +121,7 @@ class MergeSort implements IntegerSort {
 	/*
 	 * From Data Structures and Algorithm Analysis - Figure 7.9
 	 */
-	void mergesort(int[] A, int[] temp, int l, int r) {
+	private void mergesort(int[] A, int[] temp, int l, int r) {
 		int mid = (l + r) / 2; // Select midpoint
 		if (l == r) {
 			return; // List has one element
@@ -314,7 +316,7 @@ class Sorting {
 		// storage for test data and timing data
 		int[][] data = new int[reps][n], answerkey = new int[reps][n];
 
-		// New Add
+		// Create a new float array to record times
 		float[] record = new float[6];
 
 		// Loop through all algorithms
@@ -364,7 +366,7 @@ class Sorting {
 			System.out.print(
 					"\t " + methods[alg].name() + " time (ms): " + (endtime - starttime) / (float) (reps - trigger));
 
-			// New Add
+			// Record times
 			record[alg + 1] = (endtime - starttime) / (float) (reps - trigger);
 		}
 
@@ -376,19 +378,25 @@ class Sorting {
 
 		// Put records to csv file
 		try {
-			FileWriter fw = new FileWriter("run_02.csv", true);
+			FileWriter fw = new FileWriter("run_01.csv", true);
 			StringBuilder sb = new StringBuilder();
 
+			// Size
 			sb.append(record[0]);
 			sb.append(",");
+			// Zeep Sort
 			sb.append(record[1]);
 			sb.append(",");
+			// Bubble Sort
 			sb.append(record[2]);
 			sb.append(",");
+			// Insertion Sort
 			sb.append(record[3]);
 			sb.append(",");
+			// Merge Sort
 			sb.append(record[4]);
 			sb.append(",");
+			// Quick Sort
 			sb.append(record[5]);
 			sb.append("\n");
 
@@ -396,12 +404,12 @@ class Sorting {
 			fw.close();
 
 		} catch (IOException e) {
-
 			e.printStackTrace();
 		}
 
 	}
 
+	// The main method will run the Sorting 500 times for different size
 	public static void main(String[] args) {
 		for (int i = 1; i <= 500; i++) {
 			String[] string = new String[1];
