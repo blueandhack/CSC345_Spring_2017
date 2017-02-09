@@ -1,6 +1,7 @@
 
 import java.io.FileWriter;
 import java.io.IOException;
+import java.util.Date;
 
 /**
  * @author Yujia Lin
@@ -59,33 +60,69 @@ class QuickSort implements IntegerSort {
 
 	public void sort(int[] array) {
 		// ... fill in ...
-		recursive(0, array.length - 1, array);
+		// recursive(0, array.length - 1, array);
+		qsort(array, 0, array.length - 1);
 	}
 
-	private void swap(int x, int y, int[] arr) {
+	// private void swap(int x, int y, int[] arr) {
+	// int temp = arr[x];
+	// arr[x] = arr[y];
+	// arr[y] = temp;
+	// }
+	//
+	// private void recursive(int start, int end, int[] arr) {
+	// if (start >= end)
+	// return;
+	// int mid = arr[end];
+	// int left = start, right = end - 1;
+	// while (left < right) {
+	// while (arr[left] < mid && left < right)
+	// left++;
+	// while (arr[right] >= mid && left < right)
+	// right--;
+	// swap(left, right, arr);
+	// }
+	// if (arr[left] >= arr[end])
+	// swap(left, end, arr);
+	// else
+	// left++;
+	// recursive(start, left - 1, arr);
+	// recursive(left + 1, end, arr);
+	// }
+	private void qsort(int[] A, int i, int j) { // Quicksort
+		int pivotindex = findpivot(A, i, j); // Pick a pivot
+		swap(A, pivotindex, j); // Stick pivot at end
+		// k will be the first position in the right subarray
+		int k = partition(A, i - 1, j, A[j]);
+		swap(A, k, j); // Put pivot in place
+		if ((k - i) > 1) {
+			qsort(A, i, k - 1); // Sort left partition
+		}
+		if ((j - k) > 1) {
+			qsort(A, k + 1, j); // Sort right partition
+		}
+	}
+
+	private int findpivot(int[] A, int i, int j) {
+		return (i + j) / 2;
+	}
+
+	int partition(int[] A, int l, int r, int pivot) {
+		do { // Move bounds inward until they meet
+			while (A[++l] < pivot)
+				;
+			while ((r != 0) && (A[--r] > pivot))
+				;
+			swap(A, l, r); // Swap out-of-place values
+		} while (l < r); // Stop when they cross
+		swap(A, l, r); // Reverse last, wasted swap
+		return l; // Return first position in right partition
+	}
+
+	private void swap(int[] arr, int x, int y) {
 		int temp = arr[x];
 		arr[x] = arr[y];
 		arr[y] = temp;
-	}
-
-	private void recursive(int start, int end, int[] arr) {
-		if (start >= end)
-			return;
-		int mid = arr[end];
-		int left = start, right = end - 1;
-		while (left < right) {
-			while (arr[left] < mid && left < right)
-				left++;
-			while (arr[right] >= mid && left < right)
-				right--;
-			swap(left, right, arr);
-		}
-		if (arr[left] >= arr[end])
-			swap(left, end, arr);
-		else
-			left++;
-		recursive(start, left - 1, arr);
-		recursive(left + 1, end, arr);
 	}
 
 }
@@ -102,26 +139,51 @@ class MergeSort implements IntegerSort {
 	public void sort(int[] array) {
 		int len = array.length;
 		int[] result = new int[len];
-		recursive(array, result, 0, len - 1);
+		// recursive(array, result, 0, len - 1);
+		mergesort(array, result, 0, len - 1);
 	}
 
-	private void recursive(int[] arr, int[] result, int start, int end) {
-		if (start >= end)
-			return;
-		int len = end - start, mid = (len >> 1) + start;
-		int start1 = start, end1 = mid;
-		int start2 = mid + 1, end2 = end;
-		recursive(arr, result, start1, end1);
-		recursive(arr, result, start2, end2);
-		int k = start;
-		while (start1 <= end1 && start2 <= end2)
-			result[k++] = arr[start1] < arr[start2] ? arr[start1++] : arr[start2++];
-		while (start1 <= end1)
-			result[k++] = arr[start1++];
-		while (start2 <= end2)
-			result[k++] = arr[start2++];
-		for (k = start; k <= end; k++)
-			arr[k] = result[k];
+	// private void recursive(int[] arr, int[] result, int start, int end) {
+	// if (start >= end)
+	// return;
+	// int len = end - start, mid = (len >> 1) + start;
+	// int start1 = start, end1 = mid;
+	// int start2 = mid + 1, end2 = end;
+	// recursive(arr, result, start1, end1);
+	// recursive(arr, result, start2, end2);
+	// int k = start;
+	// while (start1 <= end1 && start2 <= end2)
+	// result[k++] = arr[start1] < arr[start2] ? arr[start1++] : arr[start2++];
+	// while (start1 <= end1)
+	// result[k++] = arr[start1++];
+	// while (start2 <= end2)
+	// result[k++] = arr[start2++];
+	// for (k = start; k <= end; k++)
+	// arr[k] = result[k];
+	// }
+	void mergesort(int[] A, int[] temp, int l, int r) {
+		int mid = (l + r) / 2; // Select midpoint
+		if (l == r) {
+			return; // List has one element
+		}
+		mergesort(A, temp, l, mid); // Mergesort first half
+		mergesort(A, temp, mid + 1, r); // Mergesort second half
+		for (int i = l; i <= r; i++) {// Copy subarray to temp
+			temp[i] = A[i]; // Do the merge operation back to A
+		}
+		int i1 = l;
+		int i2 = mid + 1;
+		for (int curr = l; curr <= r; curr++) {
+			if (i1 == mid + 1) {// Left sublist exhausted
+				A[curr] = temp[i2++];
+			} else if (i2 > r) { // Right sublist exhausted
+				A[curr] = temp[i1++];
+			} else if (temp[i1] < temp[i2]) { // Get smaller
+				A[curr] = temp[i1++];
+			} else {
+				A[curr] = temp[i2++];
+			}
+		}
 	}
 
 }
@@ -356,7 +418,7 @@ class Sorting {
 
 		// New Add
 		try {
-			FileWriter fw = new FileWriter("run_1.csv", true);
+			FileWriter fw = new FileWriter("run_test.csv", true);
 			StringBuilder sb = new StringBuilder();
 
 			sb.append(record[0]);
@@ -380,5 +442,13 @@ class Sorting {
 			e.printStackTrace();
 		}
 
+	}
+
+	public static void main(String[] args) {
+		for (int i = 1; i <= 1000; i++) {
+			String[] string = new String[1];
+			string[0] = "" + i;
+			Sorting sort = new Sorting(string);
+		}
 	}
 }
