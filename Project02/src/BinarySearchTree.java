@@ -70,7 +70,7 @@ public class BinarySearchTree {
 		} else if (node.getData() < data) {
 			node.rightChild = delete(data, node.rightChild);
 		} else if (node.leftChild != null && node.rightChild != null) {
-			node.setData(findMin(node.leftChild).getData());
+			node.setData(findMax(node.leftChild).getData());
 			node.leftChild = delete(node.data, node.leftChild);
 		} else {
 			// node = (node.leftChild != null) ? node.leftChild :
@@ -84,13 +84,13 @@ public class BinarySearchTree {
 		return node;
 	}
 
-	private TreeNode findMin(TreeNode node) {
+	private TreeNode findMax(TreeNode node) {
 		if (node == null) {
 			return null;
-		} else if (node.leftChild == null) {
+		} else if (node.rightChild == null) {
 			return node;
 		}
-		return findMin(node.leftChild);
+		return findMax(node.rightChild);
 	}
 
 	public int count() {
