@@ -1,3 +1,16 @@
+
+/*
+ * BinarySearchTree.java
+ *
+ * CSc 345 Spring 2017 - Project02
+ * 
+ * Author: Yujia Lin
+ *
+ * ---
+ * The file is class BinarySearchTree, and it contains a private class TreeNode. 
+ * So we can create object that binary search tree by the class.
+ */
+
 import java.io.BufferedWriter;
 import java.io.FileWriter;
 import java.io.IOException;
@@ -8,11 +21,13 @@ public class BinarySearchTree {
 
 	private int count;
 
+	// Constructor
 	public BinarySearchTree() {
 		this.count = 0;
 		this.root = null;
 	}
 
+	// Check the tree if it is empty, then return true
 	public boolean isEmpty() {
 		if (root == null) {
 			return true;
@@ -21,30 +36,35 @@ public class BinarySearchTree {
 		}
 	}
 
+	// Get BST root
 	public TreeNode getRoot() {
 		return this.root;
 	}
 
-	public boolean contians(int data) {
-		return contians(data, root);
+	// Check a node in the BST
+	public boolean contains(int data) {
+		return contains(data, root);
 	}
 
-	private boolean contians(int data, TreeNode node) {
+	// Helper method for contains method
+	private boolean contains(int data, TreeNode node) {
 		if (node == null) {
 			return false;
 		} else if (node.getData() == data) {
 			return true;
 		} else if (node.getData() < data) {
-			return contians(data, node.rightChild);
+			return contains(data, node.rightChild);
 		} else {
-			return contians(data, node.leftChild);
+			return contains(data, node.leftChild);
 		}
 	}
 
+	// Insert a value to BST
 	public void insertTreeNode(int data) {
 		root = insertTreeNodeHelper(data, root);
 	}
 
+	// Helper method for insert method
 	private TreeNode insertTreeNodeHelper(int data, TreeNode node) {
 		if (node == null) {
 			node = new TreeNode(data);
@@ -57,24 +77,28 @@ public class BinarySearchTree {
 		return node;
 	}
 
+	// Delete a value from BST
 	public void delete(int data) {
 		root = delete(data, root);
 		this.count--;
 	}
 
+	// Helper method for delete method
 	private TreeNode delete(int data, TreeNode node) {
 		if (node == null) {
 			return node;
 		} else if (node.getData() > data) {
+			// If data less than the node's data, then go to left
 			node.leftChild = delete(data, node.leftChild);
 		} else if (node.getData() < data) {
+			// If data more than the node's data, then go to right
 			node.rightChild = delete(data, node.rightChild);
 		} else if (node.leftChild != null && node.rightChild != null) {
+			// If the node has two child
 			node.setData(findMax(node.leftChild).getData());
 			node.leftChild = delete(node.data, node.leftChild);
 		} else {
-			// node = (node.leftChild != null) ? node.leftChild :
-			// node.rightChild;
+			// If the node has one child or not
 			if (node.leftChild != null) {
 				node = node.leftChild;
 			} else {
@@ -84,6 +108,8 @@ public class BinarySearchTree {
 		return node;
 	}
 
+	// Helper method for delete method, it can find a max node and return the
+	// node
 	private TreeNode findMax(TreeNode node) {
 		if (node == null) {
 			return null;
@@ -93,14 +119,17 @@ public class BinarySearchTree {
 		return findMax(node.rightChild);
 	}
 
+	// Return how many nodes in the BST
 	public int count() {
 		return this.count;
 	}
 
+	// Return a string that is pre order result
 	public String preOrder() {
 		return preOrder(root);
 	}
 
+	// Return a string that is order result
 	private String preOrder(TreeNode node) {
 		if (node == null) {
 			return "";
@@ -135,25 +164,26 @@ public class BinarySearchTree {
 			str += debug();
 		}
 
-		// System.out.println(str);
-
 		content += str + "}";
 
+		// Writer file
 		try {
 			BufferedWriter out = new BufferedWriter(new FileWriter(newFilename));
 			out.write(content);
 			out.close();
 		} catch (IOException e) {
-			// e.printStackTrace();
-			System.out.println("can not open file");
+			System.out.println("Could not open the input file: No such file or directory");
 		}
 
 	}
 
+	// Helper method for debug method
 	private String debug() {
 		return debug(root);
 	}
 
+	// Helper method for debug method, it will make a string that contains whole
+	// BST every node
 	private String debug(TreeNode node) {
 		String left = "\n";
 
@@ -185,53 +215,31 @@ public class BinarySearchTree {
 		return str;
 	}
 
+	// The class is tree node
 	private class TreeNode {
 		private int data;
 
 		private TreeNode leftChild;
 		private TreeNode rightChild;
 
-		public TreeNode() {
-			this.leftChild = null;
-			this.rightChild = null;
-		}
-
+		// Constructor, create a node but it doesn't have left and right
 		public TreeNode(int data) {
 			this.data = data;
 			this.leftChild = null;
 			this.rightChild = null;
 		}
 
-		public TreeNode(int data, TreeNode leftChild, TreeNode rightChild) {
-			this.data = data;
-			this.leftChild = leftChild;
-			this.rightChild = rightChild;
-		}
-
+		// To get data
 		public int getData() {
 			return data;
 		}
 
+		// Set data
 		public void setData(int data) {
 			this.data = data;
 		}
 
-		public TreeNode getLeftChild() {
-			return leftChild;
-		}
-
-		public void setLeftChild(TreeNode leftChild) {
-			this.leftChild = leftChild;
-		}
-
-		public TreeNode getRightChild() {
-			return rightChild;
-		}
-
-		public void setRightChild(TreeNode rightChild) {
-			this.rightChild = rightChild;
-		}
-
+		// Check the node is it a leaf by no left and right child
 		public boolean isLeaf() {
 			if (this.leftChild == null && this.rightChild == null) {
 				return true;

@@ -1,25 +1,11 @@
-insert 8
-insert 4
-insert 12
-insert 2
-insert 6
+insert 20
 insert 10
-insert 14
-insert 1
-insert 3
 insert 5
-insert 7
-insert 9
-insert 11
-insert 13
 insert 15
-
-inOrder
 preOrder
-debug test_06_step1.dot
-
-delete 14
-
 inOrder
+debug test_14_step01.dot
+delete 15
 preOrder
-debug test_06_step2.dot
+inOrder
+debug test_14_step02.dot
