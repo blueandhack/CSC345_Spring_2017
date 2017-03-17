@@ -75,11 +75,15 @@ public class AVLTree {
 	 * nothing. Works recursively.
 	 */
 	public void print_inOrder() {
-		throw new RuntimeException("TODO: implement me");
+		// throw new RuntimeException("TODO: implement me");
+		
 	}
 
 	private void print_inOrder(AVLNode tree) {
-		throw new RuntimeException("TODO: implement me");
+		if (tree != null) {
+
+		}
+		return;
 	}
 
 	/*
@@ -90,6 +94,10 @@ public class AVLTree {
 	 */
 	public void print_preOrder() {
 		throw new RuntimeException("TODO: implement me");
+	}
+
+	private void print_preOrder(AVLNode tree) {
+
 	}
 
 	/*
