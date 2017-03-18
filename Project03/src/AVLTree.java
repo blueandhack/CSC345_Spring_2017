@@ -76,7 +76,7 @@ public class AVLTree {
 	 */
 	public void print_inOrder() {
 		// throw new RuntimeException("TODO: implement me");
-		
+
 	}
 
 	private void print_inOrder(AVLNode tree) {
@@ -108,7 +108,20 @@ public class AVLTree {
 	 * (with a helper method), or as a loop.
 	 */
 	public AVLNode search(int val) {
-		throw new RuntimeException("TODO: implement me");
+		// throw new RuntimeException("TODO: implement me");
+		return search(val, root);
+	}
+
+	private AVLNode search(int data, AVLNode node) {
+		if (node == null) {
+			return null;
+		} else if (node.val == data) {
+			return node;
+		} else if (node.val < data) {
+			return search(data, node.right);
+		} else {
+			return search(data, node.left);
+		}
 	}
 
 	/*
@@ -136,7 +149,17 @@ public class AVLTree {
 	}
 
 	private static AVLNode insert(AVLNode subtree, int val) throws IllegalArgumentException {
-		throw new RuntimeException("TODO: implemenet me");
+		if (subtree == null) {
+			subtree = new AVLNode(val);
+		} else if (subtree.val > val) {
+			subtree.left = insert(subtree.left, val);
+		} else if (subtree.val < val) {
+			subtree.right = insert(subtree.right, val);
+		} else if (subtree.val == val) {
+			throw new IllegalArgumentException();
+		}
+		return subtree;
+		// throw new RuntimeException("TODO: implemenet me");
 	}
 
 	/*
@@ -162,8 +185,15 @@ public class AVLTree {
 	 * of the rebalancing work associated with the delete. (But see note in the
 	 * spec about possibly skipping rebalance-on-delete.)
 	 */
-	public static void delete(int val) throws IllegalArgumentException {
-		throw new RuntimeException("TODO: implement me");
+	public void delete(int val) throws IllegalArgumentException {
+		if (search(val) == null) {
+			throw new IllegalArgumentException();
+		}
+		root = delete(root, val);
+	}
+
+	public static AVLNode delete(AVLNode subtree, int val) {
+		return subtree;
 	}
 
 	/*
