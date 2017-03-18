@@ -248,7 +248,7 @@ public class AVLTree {
 
 	private static int heightHelper(AVLNode node) {
 		if (node == null) {
-			return -1;
+			return 0;
 		}
 		node.height = Math.max(heightHelper(node.left), heightHelper(node.right));
 		return node.height + 1;
