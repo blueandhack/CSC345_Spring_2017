@@ -1,3 +1,7 @@
+import java.io.BufferedWriter;
+import java.io.FileWriter;
+import java.io.IOException;
+
 /* class AVLTree
  *
  * Models a complete AVLTree.  Individual nodes are modeled by the AVLNode
@@ -57,7 +61,59 @@ public class AVLTree {
 	 * to *return* a String.
 	 */
 	public void debug(String filename) {
-		throw new RuntimeException("TODO: implement me");
+
+		String newFilename = "" + filename;
+
+		String content = "digraph {\n";
+
+		String str = "";
+
+		if (root != null) {
+			str = "  DUMMY [style=invis];\n  DUMMY -> " + root.val + ";\n  " + root.val + " [penwidth=2];\n\n";
+			str += debug(root);
+		}
+
+		content += str + "}";
+
+		// Writer file
+		try {
+			BufferedWriter out = new BufferedWriter(new FileWriter(newFilename));
+			out.write(content);
+			out.close();
+		} catch (IOException e) {
+			System.out.println("Could not open the input file: No such file or directory");
+		}
+
+	}
+
+	private String debug(AVLNode node) {
+		String left = "\n";
+
+		String right = "\n";
+		if (node == null) {
+			return "";
+		}
+
+		if (node.left != null) {
+			left = "  " + node.val + " -> " + node.left.val + " [label=\"L\"];\n";
+		}
+
+		if (node.left == null && node.right != null) {
+			left = "  " + node.val + " -> L_" + node.val + " [style=invis];\n  L_" + node.val + " [style=invis];\n\n";
+		}
+
+		if (node.right != null) {
+			right = "  " + node.val + " -> " + node.right.val + " [label=\"R\"];\n";
+		}
+
+		if (node.right == null && node.left != null) {
+			right = "  " + node.val + " -> R_" + node.val + " [style=invis];\n  R_" + node.val + " [style=invis];\n\n";
+		}
+
+		String str = "  " + node.val + " [label=\"" + node.val + "\\nh=" + node.height + "\"]" + ";\n\n" + left
+				+ debug(node.left) + right + debug(node.right);
+
+		return str;
 	}
 
 	/*
@@ -75,15 +131,23 @@ public class AVLTree {
 	 * nothing. Works recursively.
 	 */
 	public void print_inOrder() {
-		// throw new RuntimeException("TODO: implement me");
-
+		print_inOrder(root);
 	}
 
 	private void print_inOrder(AVLNode tree) {
-		if (tree != null) {
-
+		if (tree == null) {
+			return;
 		}
-		return;
+		System.out.println(inOrder(tree));
+	}
+
+	private static String inOrder(AVLNode node) {
+		if (node == null) {
+			return "";
+		} else if (node.left == null && node.right == null) {
+			return "" + node.val + " ";
+		}
+		return inOrder(node.left) + node.val + " " + inOrder(node.right);
 	}
 
 	/*
@@ -93,11 +157,21 @@ public class AVLTree {
 	 * produces a pre-order traversal instead of an in-order traversal.
 	 */
 	public void print_preOrder() {
-		throw new RuntimeException("TODO: implement me");
+		print_preOrder(root);
 	}
 
 	private void print_preOrder(AVLNode tree) {
+		if (tree == null) {
+			return;
+		}
+		System.out.println(preOrder(tree));
+	}
 
+	private static String preOrder(AVLNode node) {
+		if (node == null) {
+			return "";
+		}
+		return node.val + " " + preOrder(node.left) + preOrder(node.right);
 	}
 
 	/*
@@ -108,7 +182,6 @@ public class AVLTree {
 	 * (with a helper method), or as a loop.
 	 */
 	public AVLNode search(int val) {
-		// throw new RuntimeException("TODO: implement me");
 		return search(val, root);
 	}
 
@@ -122,6 +195,17 @@ public class AVLTree {
 		} else {
 			return search(data, node.left);
 		}
+	}
+
+	private static void setHeight(AVLNode node) {
+		if (node == null) {
+			return;
+		}
+
+		node.height = heightHelper(node);
+
+		preOrder(node.left);
+		preOrder(node.right);
 	}
 
 	/*
@@ -158,8 +242,16 @@ public class AVLTree {
 		} else if (subtree.val == val) {
 			throw new IllegalArgumentException();
 		}
-		return subtree;
-		// throw new RuntimeException("TODO: implemenet me");
+		setHeight(subtree);
+		return rebalance(subtree);
+	}
+
+	private static int heightHelper(AVLNode node) {
+		if (node == null) {
+			return -1;
+		}
+		node.height = Math.max(heightHelper(node.left), heightHelper(node.right));
+		return node.height + 1;
 	}
 
 	/*
@@ -193,7 +285,70 @@ public class AVLTree {
 	}
 
 	public static AVLNode delete(AVLNode subtree, int val) {
-		return subtree;
+		// if (subtree.val > val) {
+		// subtree.right = delete(subtree.right, val);
+		// } else if (subtree.val < val) {
+		// subtree.left = delete(subtree.left, val);
+		// } else {
+		// if (subtree.left == null) {
+		// return subtree.right;
+		// }
+		// if (subtree.right == null) {
+		// return subtree.left;
+		// }
+		// AVLNode parNode = subtree;
+		// subtree = findSuccessor(subtree.right);
+		// subtree.right = deleteSuccessor(parNode.right);
+		// subtree.left = parNode.left;
+		// }
+		// heightHelper(subtree);
+		// return rebalance(subtree);
+
+		if (subtree == null) {
+			return subtree;
+		} else if (subtree.val > val) {
+			// If data less than the node's data, then go to left
+			subtree.left = delete(subtree.left, val);
+		} else if (subtree.val < val) {
+			// If data more than the node's data, then go to right
+			subtree.right = delete(subtree.right, val);
+		} else if (subtree.left != null && subtree.right != null) {
+			// If the node has two child
+			subtree.val = findMax(subtree.left).val;
+			subtree.left = delete(subtree.left, subtree.val);
+		} else {
+			// If the node has one child or not
+			if (subtree.left != null) {
+				subtree = subtree.left;
+			} else {
+				subtree = subtree.right;
+			}
+		}
+		setHeight(subtree);
+		return rebalance(subtree);
+	}
+
+	private static AVLNode findMax(AVLNode node) {
+		if (node == null) {
+			return null;
+		} else if (node.right == null) {
+			return node;
+		}
+		return findMax(node.right);
+	}
+
+	private static AVLNode deleteSuccessor(AVLNode node) {
+		if (node.left == null) {
+			return node.right;
+		}
+		node.left = deleteSuccessor(node.left);
+		return rebalance(node);
+	}
+
+	private static AVLNode findSuccessor(AVLNode node) {
+		if (node.left == null)
+			return node;
+		return findSuccessor(node.left);
 	}
 
 	/*
@@ -217,7 +372,23 @@ public class AVLTree {
 	 * checks for imbalances at THIS PARTICULAR NODE, never at any descendants.
 	 */
 	public static AVLNode rebalance(AVLNode node) {
-		throw new RuntimeException("TODO: implement me");
+		if (node == null || node.left == null && node.right == null) {
+		}
+		// if there are more value in left, then rotate to the right.
+		else if ((getHeight(node.left) - getHeight(node.right)) > 1) {
+			if (getHeight(node.left.left) >= getHeight(node.left.right))
+				node = rotateRight(node);
+			else
+				node = doubleRotateRight(node);
+		}
+		// if there are more value in right, then rotate to the left.
+		else if ((getHeight(node.right) - getHeight(node.left)) > 1) {
+			if (getHeight(node.right.right) >= getHeight(node.right.left))
+				node = rotateLeft(node);
+			else
+				node = doubleRotateLeft(node);
+		}
+		return node;
 	}
 
 	/*
@@ -234,7 +405,11 @@ public class AVLTree {
 	 * nodes.
 	 */
 	public static int getHeight(AVLNode subtree) {
-		throw new RuntimeException("TODO: implement me");
+		if (subtree == null) {
+			return -1;
+		} else {
+			return subtree.height;
+		}
 	}
 
 	/*
@@ -258,7 +433,10 @@ public class AVLTree {
 	 * check the fields in a fixed number of nodes.
 	 */
 	public static AVLNode rotateRight(AVLNode subtree) {
-		throw new RuntimeException("TODO: implement me");
+		AVLNode newRoot = subtree.left;
+		subtree.left = newRoot.right;
+		newRoot.right = subtree;
+		return newRoot;
 	}
 
 	/*
@@ -268,6 +446,20 @@ public class AVLTree {
 	 * image.
 	 */
 	public static AVLNode rotateLeft(AVLNode subtree) {
-		throw new RuntimeException("TODO: implement me");
+		AVLNode newRoot = subtree.right;
+		subtree.right = newRoot.left;
+		newRoot.left = subtree;
+		return newRoot;
 	}
+
+	private static AVLNode doubleRotateLeft(AVLNode node) {
+		node.right = rotateRight(node.right);
+		return rotateLeft(node);
+	}
+
+	private static AVLNode doubleRotateRight(AVLNode node) {
+		node.left = rotateLeft(node.left);
+		return rotateRight(node);
+	}
+
 }

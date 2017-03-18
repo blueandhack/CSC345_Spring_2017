@@ -8,12 +8,8 @@
  * methods in AVLTree which we defined in the original file.
  */
 
-
-
-public class Proj03TestDriver
-{
-	public static void main(String[] args)
-	{
+public class Proj03TestDriver {
+	public static void main(String[] args) {
 		System.out.println("Project 3 Test Driver");
 		System.out.println();
 		System.out.println("This program runs some very simple tests, on some simple operations.  If it");
@@ -47,28 +43,21 @@ public class Proj03TestDriver
 		System.out.println("Checking the shape of the tree...");
 		AVLNode search10 = tree1.search(10);
 		AVLNode search20 = tree1.search(20);
-		if (search10.left  != null || search10.right != search20 ||
-		    search10.val   != 10   || search20.left  != null     ||
-		    search20.right != null || search20.val   != 20)
-		{
+		if (search10.left != null || search10.right != search20 || search10.val != 10 || search20.left != null
+				|| search20.right != null || search20.val != 20) {
 			System.out.println("   ERROR");
 		}
 
 		System.out.println("Double-checking search...");
-		if (tree1.search(10) != search10 ||
-		    tree1.search(20) != search20)
-		{
+		if (tree1.search(10) != search10 || tree1.search(20) != search20) {
 			System.out.println("   ERROR");
 		}
 
 		System.out.println("Testing duplicate-vaelu insertion...");
 		boolean exceptionFound = false;
-		try
-		{
+		try {
 			tree1.insert(20);
-		}
-		catch(IllegalArgumentException e)
-		{
+		} catch (IllegalArgumentException e) {
 			exceptionFound = true;
 		}
 		if (exceptionFound == false)
@@ -77,17 +66,14 @@ public class Proj03TestDriver
 		System.out.println("Testing simple delete...");
 		tree2.insert(10);
 		tree2.delete(10);
-		if (tree2.search(10) == null)
+		if (tree2.search(10) != null)
 			System.out.println("   ERROR");
 
 		System.out.println("Testing delete-not-exist...");
 		exceptionFound = false;
-		try
-		{
+		try {
 			tree1.delete(100);
-		}
-		catch(IllegalArgumentException e)
-		{
+		} catch (IllegalArgumentException e) {
 			exceptionFound = true;
 		}
 		if (exceptionFound == false)
@@ -99,9 +85,9 @@ public class Proj03TestDriver
 		AVLNode reb30 = new AVLNode(30);
 
 		reb10.right = reb20;
-		  reb10.height = 2;
+		reb10.height = 2;
 		reb20.right = reb30;
-		  reb20.height = 1;
+		reb20.height = 1;
 
 		AVLNode afterReb = AVLTree.rebalance(reb10);
 		if (afterReb != reb20)
@@ -112,14 +98,13 @@ public class Proj03TestDriver
 			System.out.println("   ERROR");
 
 		System.out.println("Checking that the shape of the rebalanced tree is correct...");
-		if (reb20.left != reb10 || reb20.right != reb30 ||
-		    reb10.left != null  || reb10.right != null  ||
-		    reb30.left != null  || reb30.right != null  ||
-		    reb20.height != 1   || reb10.height != 0    || reb30.height != 0)
-		{
-			/* Russ wrote some debug code, to find errors in his
-			 * own code.  But if you hit other errors, you can
-			 * write your own debug code, elsewhere.  :)
+		if (reb20.left != reb10 || reb20.right != reb30 || reb10.left != null || reb10.right != null
+				|| reb30.left != null || reb30.right != null || reb20.height != 1 || reb10.height != 0
+				|| reb30.height != 0) {
+			/*
+			 * Russ wrote some debug code, to find errors in his own code. But
+			 * if you hit other errors, you can write your own debug code,
+			 * elsewhere. :)
 			 */
 			System.out.println(reb10);
 			System.out.println(reb20);
@@ -142,10 +127,7 @@ public class Proj03TestDriver
 		}
 
 		System.out.println("Checking getHeight()...");
-		if (AVLTree.getHeight(null) != -1 ||
-		    AVLTree.getHeight(reb10) != 0 ||
-		    AVLTree.getHeight(reb20) != 1)
-		{
+		if (AVLTree.getHeight(null) != -1 || AVLTree.getHeight(reb10) != 0 || AVLTree.getHeight(reb20) != 1) {
 			System.out.println("   ERROR");
 		}
 
@@ -158,16 +140,13 @@ public class Proj03TestDriver
 		preRotRt.insert(300);
 
 		AVLNode preRotRtRoot = preRotRt.search(400);
-		AVLNode postRotRt    = AVLTree.rotateRight(preRotRtRoot);
+		AVLNode postRotRt = AVLTree.rotateRight(preRotRtRoot);
 
-		AVLNode prr_l  = postRotRt.left;
-		AVLNode prr_r  = postRotRt.right;
+		AVLNode prr_l = postRotRt.left;
+		AVLNode prr_r = postRotRt.right;
 		AVLNode prr_rl = prr_r.left;
 		AVLNode prr_rr = prr_r.right;
-		if (postRotRt.val != 200 ||
-		    prr_l    .val != 100 || prr_r .val != 400 ||
-		    prr_rl   .val != 300 || prr_rr.val != 500)
-		{
+		if (postRotRt.val != 200 || prr_l.val != 100 || prr_r.val != 400 || prr_rl.val != 300 || prr_rr.val != 500) {
 			System.out.println("   ERROR");
 		}
 
@@ -180,22 +159,18 @@ public class Proj03TestDriver
 		preRotLt.insert(1005);
 
 		AVLNode preRotLtRoot = preRotLt.search(1002);
-		AVLNode postRotLt    = AVLTree.rotateLeft(preRotLtRoot);
+		AVLNode postRotLt = AVLTree.rotateLeft(preRotLtRoot);
 
-		AVLNode prl_l  = postRotLt.left;
-		AVLNode prl_r  = postRotLt.right;
+		AVLNode prl_l = postRotLt.left;
+		AVLNode prl_r = postRotLt.right;
 		AVLNode prl_ll = prl_l.left;
 		AVLNode prl_lr = prl_l.right;
-		if (postRotLt.val != 1004 ||
-		    prl_l    .val != 1002 || prl_r .val != 1005 ||
-		    prl_ll   .val != 1001 || prl_lr.val != 1003)
-		{
+		if (postRotLt.val != 1004 || prl_l.val != 1002 || prl_r.val != 1005 || prl_ll.val != 1001
+				|| prl_lr.val != 1003) {
 			System.out.println("   ERROR");
 		}
-
 
 		System.out.println();
 		System.out.println("Simple tests completed.  Look for ERRORs in the output above.");
 	}
 }
-
