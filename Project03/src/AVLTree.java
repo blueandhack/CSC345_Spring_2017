@@ -135,9 +135,9 @@ public class AVLTree {
 	}
 
 	private void print_inOrder(AVLNode tree) {
-		if (tree == null) {
-			return;
-		}
+		// if (tree == null) {
+		// return;
+		// }
 		System.out.println(inOrder(tree));
 	}
 
@@ -161,9 +161,9 @@ public class AVLTree {
 	}
 
 	private void print_preOrder(AVLNode tree) {
-		if (tree == null) {
-			return;
-		}
+		// if (tree == null) {
+		// return;
+		// }
 		System.out.println(preOrder(tree));
 	}
 
@@ -197,16 +197,16 @@ public class AVLTree {
 		}
 	}
 
-	private static void setHeight(AVLNode node) {
-		if (node == null) {
-			return;
-		}
-
-		node.height = heightHelper(node);
-
-		preOrder(node.left);
-		preOrder(node.right);
-	}
+	// private static void setHeight(AVLNode node) {
+	// if (node == null) {
+	// return;
+	// }
+	//
+	// node.height = heightHelper(node);
+	//
+	// preOrder(node.left);
+	// preOrder(node.right);
+	// }
 
 	/*
 	 * insert(int)
@@ -242,8 +242,10 @@ public class AVLTree {
 		} else if (subtree.val == val) {
 			throw new IllegalArgumentException();
 		}
-		setHeight(subtree);
-		return rebalance(subtree);
+		heightHelper(subtree);
+		subtree = rebalance(subtree);
+		heightHelper(subtree);
+		return subtree;
 	}
 
 	private static int heightHelper(AVLNode node) {
@@ -324,8 +326,10 @@ public class AVLTree {
 				subtree = subtree.right;
 			}
 		}
-		setHeight(subtree);
-		return rebalance(subtree);
+		heightHelper(subtree);
+		subtree = rebalance(subtree);
+		heightHelper(subtree);
+		return subtree;
 	}
 
 	private static AVLNode findMax(AVLNode node) {
@@ -337,19 +341,19 @@ public class AVLTree {
 		return findMax(node.right);
 	}
 
-	private static AVLNode deleteSuccessor(AVLNode node) {
-		if (node.left == null) {
-			return node.right;
-		}
-		node.left = deleteSuccessor(node.left);
-		return rebalance(node);
-	}
-
-	private static AVLNode findSuccessor(AVLNode node) {
-		if (node.left == null)
-			return node;
-		return findSuccessor(node.left);
-	}
+	// private static AVLNode deleteSuccessor(AVLNode node) {
+	// if (node.left == null) {
+	// return node.right;
+	// }
+	// node.left = deleteSuccessor(node.left);
+	// return rebalance(node);
+	// }
+	//
+	// private static AVLNode findSuccessor(AVLNode node) {
+	// if (node.left == null)
+	// return node;
+	// return findSuccessor(node.left);
+	// }
 
 	/*
 	 * static rebalance(AVLNode)

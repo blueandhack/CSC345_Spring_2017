@@ -51,12 +51,17 @@ public class Proj03_AVL {
 						int data = Integer.parseInt(command[2]);
 
 						if (data < 0) {
-							System.out.println(
+							System.err.println(
 									"ERROR: Invalid testcase!  A numeric parameter is less than zero!  val=" + data);
 							System.exit(0);
 						}
 
-						tree[Integer.parseInt(command[0])].insert(Integer.parseInt(command[2]));
+						try {
+							tree[Integer.parseInt(command[0])].insert(Integer.parseInt(command[2]));
+						} catch (Exception e) {
+							System.err
+									.println("ERROR: Could not insert " + data + " because it is already in the tree.");
+						}
 
 					} else if (command[1].equals("search")) {
 						// Command search
@@ -64,7 +69,7 @@ public class Proj03_AVL {
 						int data = Integer.parseInt(command[2]);
 
 						if (data < 0) {
-							System.out.println(
+							System.err.println(
 									"ERROR: Invalid testcase!  A numeric parameter is less than zero!  val=" + data);
 							System.exit(0);
 						}
@@ -84,12 +89,16 @@ public class Proj03_AVL {
 						int data = Integer.parseInt(command[2]);
 
 						if (data < 0) {
-							System.out.println(
+							System.err.println(
 									"ERROR: Invalid testcase!  A numeric parameter is less than zero!  val=" + data);
 							System.exit(0);
 						}
 
-						tree[Integer.parseInt(command[0])].delete(data);
+						try {
+							tree[Integer.parseInt(command[0])].delete(data);
+						} catch (Exception e) {
+							System.err.println("ERROR: Could not delete " + data + " because it was not in the tree.");
+						}
 					}
 				}
 
