@@ -75,9 +75,10 @@ public class Proj03_AVL {
 						}
 
 						if (tree[Integer.parseInt(command[0])].search(data) != null) {
-							System.out.println("HIT: The value " + data + " was found in the tree.");
+							System.out.println("HIT: The value " + data + " was found in tree " + command[0] + ".");
 						} else {
-							System.out.println("MISS: The value " + data + " was *NOT* found in the tree.");
+							System.out.println(
+									"MISS: The value " + data + " was *NOT* found in tree " + command[0] + ".");
 						}
 
 					} else if (command[1].equals("debug")) {

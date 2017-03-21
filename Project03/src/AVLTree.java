@@ -138,7 +138,8 @@ public class AVLTree {
 		// if (tree == null) {
 		// return;
 		// }
-		System.out.println(inOrder(tree));
+		String inorder = inOrder(tree);
+		System.out.println(inorder);
 	}
 
 	private static String inOrder(AVLNode node) {
@@ -164,7 +165,9 @@ public class AVLTree {
 		// if (tree == null) {
 		// return;
 		// }
-		System.out.println(preOrder(tree));
+		String preorder = preOrder(tree);
+
+		System.out.println(preorder);
 	}
 
 	private static String preOrder(AVLNode node) {
