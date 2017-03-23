@@ -1,3 +1,14 @@
+
+/*
+ * Proj03_AVL.java
+ *
+ * CSc 345 Spring 2017 - Project03
+ * 
+ * Author: Yujia Lin
+ *
+ * ---
+ */
+
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.Scanner;
@@ -35,6 +46,7 @@ public class Proj03_AVL {
 				String[] command = line.split(" ");
 
 				if (command.length == 1) {
+					// if the line is blank then just skip it
 					continue;
 				}
 
@@ -105,7 +117,7 @@ public class Proj03_AVL {
 
 			}
 		} catch (FileNotFoundException e) {
-			System.out.println("Could not open the input file: No such file or directory");
+			System.err.println("Could not open the input file: No such file or directory");
 		}
 
 	}

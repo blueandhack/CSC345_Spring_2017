@@ -1,3 +1,13 @@
+
+/*
+ * AVLTree.java
+ *
+ * CSc 345 Spring 2017 - Project03
+ * 
+ * Author: Yujia Lin
+ *
+ * ---
+ */
 import java.io.BufferedWriter;
 import java.io.FileWriter;
 import java.io.IOException;
@@ -135,9 +145,6 @@ public class AVLTree {
 	}
 
 	private void print_inOrder(AVLNode tree) {
-		// if (tree == null) {
-		// return;
-		// }
 		String inorder = inOrder(tree);
 		System.out.println(inorder);
 	}
@@ -162,11 +169,7 @@ public class AVLTree {
 	}
 
 	private void print_preOrder(AVLNode tree) {
-		// if (tree == null) {
-		// return;
-		// }
 		String preorder = preOrder(tree);
-
 		System.out.println(preorder);
 	}
 
@@ -199,17 +202,6 @@ public class AVLTree {
 			return search(data, node.left);
 		}
 	}
-
-	// private static void setHeight(AVLNode node) {
-	// if (node == null) {
-	// return;
-	// }
-	//
-	// node.height = heightHelper(node);
-	//
-	// preOrder(node.left);
-	// preOrder(node.right);
-	// }
 
 	/*
 	 * insert(int)
@@ -251,6 +243,10 @@ public class AVLTree {
 		return subtree;
 	}
 
+	/*
+	 * The private helper function will make sure a subtree's every nodes have
+	 * correct height
+	 */
 	private static int heightHelper(AVLNode node) {
 		if (node == null) {
 			return 0;
@@ -290,25 +286,6 @@ public class AVLTree {
 	}
 
 	public static AVLNode delete(AVLNode subtree, int val) {
-		// if (subtree.val > val) {
-		// subtree.right = delete(subtree.right, val);
-		// } else if (subtree.val < val) {
-		// subtree.left = delete(subtree.left, val);
-		// } else {
-		// if (subtree.left == null) {
-		// return subtree.right;
-		// }
-		// if (subtree.right == null) {
-		// return subtree.left;
-		// }
-		// AVLNode parNode = subtree;
-		// subtree = findSuccessor(subtree.right);
-		// subtree.right = deleteSuccessor(parNode.right);
-		// subtree.left = parNode.left;
-		// }
-		// heightHelper(subtree);
-		// return rebalance(subtree);
-
 		if (subtree == null) {
 			return subtree;
 		} else if (subtree.val > val) {
@@ -335,6 +312,7 @@ public class AVLTree {
 		return subtree;
 	}
 
+	// The private method will find max node at the left subtree
 	private static AVLNode findMax(AVLNode node) {
 		if (node == null) {
 			return null;
@@ -343,20 +321,6 @@ public class AVLTree {
 		}
 		return findMax(node.right);
 	}
-
-	// private static AVLNode deleteSuccessor(AVLNode node) {
-	// if (node.left == null) {
-	// return node.right;
-	// }
-	// node.left = deleteSuccessor(node.left);
-	// return rebalance(node);
-	// }
-	//
-	// private static AVLNode findSuccessor(AVLNode node) {
-	// if (node.left == null)
-	// return node;
-	// return findSuccessor(node.left);
-	// }
 
 	/*
 	 * static rebalance(AVLNode)
