@@ -7,6 +7,8 @@
  * Author: Yujia Lin
  *
  * ---
+ * The file is class AVLTree, and it contains many method about AVLTree. 
+ * So we can create object that AVLTree by the class.
  */
 import java.io.BufferedWriter;
 import java.io.FileWriter;
@@ -144,7 +146,7 @@ public class AVLTree {
 		print_inOrder(root);
 	}
 
-	private void print_inOrder(AVLNode tree) {
+	private static void print_inOrder(AVLNode tree) {
 		String inorder = inOrder(tree);
 		System.out.println(inorder);
 	}
@@ -168,7 +170,7 @@ public class AVLTree {
 		print_preOrder(root);
 	}
 
-	private void print_preOrder(AVLNode tree) {
+	private static void print_preOrder(AVLNode tree) {
 		String preorder = preOrder(tree);
 		System.out.println(preorder);
 	}
@@ -238,7 +240,9 @@ public class AVLTree {
 			throw new IllegalArgumentException();
 		}
 		heightHelper(subtree);
-		subtree = rebalance(subtree);
+		if (subtree != null) {
+			subtree = rebalance(subtree);
+		}
 		heightHelper(subtree);
 		return subtree;
 	}
@@ -307,7 +311,9 @@ public class AVLTree {
 			}
 		}
 		heightHelper(subtree);
-		subtree = rebalance(subtree);
+		if (subtree != null) {
+			subtree = rebalance(subtree);
+		}
 		heightHelper(subtree);
 		return subtree;
 	}
@@ -343,7 +349,8 @@ public class AVLTree {
 	 * checks for imbalances at THIS PARTICULAR NODE, never at any descendants.
 	 */
 	public static AVLNode rebalance(AVLNode node) {
-		if (node == null || node.left == null && node.right == null) {
+		if (node.left == null && node.right == null) {
+			// do nothing
 		}
 		// if there are more value in left, then rotate to the right.
 		else if ((getHeight(node.left) - getHeight(node.right)) > 1) {
@@ -423,11 +430,13 @@ public class AVLTree {
 		return newRoot;
 	}
 
+	// double rotate left
 	private static AVLNode doubleRotateLeft(AVLNode node) {
 		node.right = rotateRight(node.right);
 		return rotateLeft(node);
 	}
 
+	// double rotate rights
 	private static AVLNode doubleRotateRight(AVLNode node) {
 		node.left = rotateLeft(node.left);
 		return rotateRight(node);

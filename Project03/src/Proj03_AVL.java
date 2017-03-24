@@ -7,10 +7,17 @@
  * Author: Yujia Lin
  *
  * ---
+ * The file contains main method, we can run the program in there.
+ * It will read a file, then it create four empty AVLTrees by AVLTree.java
+ * And we can use those command:
+ * insert, search, delete, inOrder, preOrder, debug
  */
 
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 import java.util.Scanner;
 
 public class Proj03_AVL {
@@ -19,7 +26,7 @@ public class Proj03_AVL {
 
 		// Check argument
 		if (args.length != 1) {
-			System.out.println("SYNTAX: ./proj03_AVL <filename>");
+			System.err.println("SYNTAX: ./Proj03_AVL <filename>");
 			System.exit(0);
 		}
 
@@ -43,7 +50,14 @@ public class Proj03_AVL {
 				// Read a line
 				String line = input.nextLine();
 
-				String[] command = line.split(" ");
+				String[] oCommand = line.split("\\s+");
+
+				// remove some whitespaces form the array
+				List<String> list = new ArrayList<String>(Arrays.asList(oCommand));
+				list.removeAll(Arrays.asList(""));
+
+				// get commands
+				String[] command = list.toArray(oCommand);
 
 				if (command.length == 1) {
 					// if the line is blank then just skip it
@@ -60,7 +74,11 @@ public class Proj03_AVL {
 
 					if (command[1].equals("insert")) {
 						// Command insert
-						int data = Integer.parseInt(command[2]);
+						int data = 0;
+						try {
+							data = Integer.parseInt(command[2]);
+						} catch (Exception e) {
+						}
 
 						if (data < 0) {
 							System.err.println(
@@ -77,8 +95,11 @@ public class Proj03_AVL {
 
 					} else if (command[1].equals("search")) {
 						// Command search
-
-						int data = Integer.parseInt(command[2]);
+						int data = 0;
+						try {
+							data = Integer.parseInt(command[2]);
+						} catch (Exception e) {
+						}
 
 						if (data < 0) {
 							System.err.println(
@@ -98,8 +119,11 @@ public class Proj03_AVL {
 						tree[Integer.parseInt(command[0])].debug(command[2]);
 					} else if (command[1].equals("delete")) {
 						// Command delete
-
-						int data = Integer.parseInt(command[2]);
+						int data = 0;
+						try {
+							data = Integer.parseInt(command[2]);
+						} catch (Exception e) {
+						}
 
 						if (data < 0) {
 							System.err.println(
