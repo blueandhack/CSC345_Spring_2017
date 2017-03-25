@@ -59,7 +59,7 @@ public class Proj03_AVL {
 				// get commands
 				String[] command = list.toArray(oCommand);
 
-				if (command.length == 1) {
+				if (command.length <= 1) {
 					// if the line is blank then just skip it
 					continue;
 				}
