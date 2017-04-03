@@ -72,7 +72,14 @@ public class Proj03_AVL {
 					tree[Integer.parseInt(command[0])].print_inOrder();
 				} else {
 
-					if (command[1].equals("insert")) {
+					if (command[1].equals("range")) {
+						int low = 0, high = 0;
+						low = Integer.parseInt(command[2]);
+						high = Integer.parseInt(command[3]);
+
+						tree[Integer.parseInt(command[0])].print_inOrder_range(low, high);
+
+					} else if (command[1].equals("insert")) {
 						// Command insert
 						int data = 0;
 						try {

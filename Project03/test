@@ -1,1 +1,15 @@
-0 delete hello
+0 insert 4
+0 insert 5
+0 insert 7
+0 insert 8
+0 insert 99
+0 insert 27
+0 insert 45
+0 insert 23
+0 insert 11
+0 insert 2
+0 insert 445
+0 insert 238
+0 insert 123
+0 inOrder
+0 range 5 500

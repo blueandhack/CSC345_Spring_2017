@@ -182,6 +182,25 @@ public class AVLTree {
 		return node.val + " " + preOrder(node.left) + preOrder(node.right);
 	}
 
+	public void print_inOrder_range(int low, int hi) {
+		print_inOrder_range(root, low, hi);
+	}
+
+	private static void print_inOrder_range(AVLNode node, int low, int hi) {
+		if (node == null) {
+			return;
+		}
+		if (low <= node.val) {
+			print_inOrder_range(node.left, low, hi);
+		}
+		if (node.val >= low && node.val <= hi) {
+			System.out.print(node.val + " ");
+		}
+		if (hi >= node.val) {
+			print_inOrder_range(node.right, low, hi);
+		}
+	}
+
 	/*
 	 * search(int)
 	 *
