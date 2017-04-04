@@ -184,19 +184,20 @@ public class AVLTree {
 
 	public void print_inOrder_range(int low, int hi) {
 		print_inOrder_range(root, low, hi);
+		System.out.print("\n");
 	}
 
 	private static void print_inOrder_range(AVLNode node, int low, int hi) {
 		if (node == null) {
 			return;
 		}
-		if (low <= node.val) {
+		if (low < node.val) {
 			print_inOrder_range(node.left, low, hi);
 		}
 		if (node.val >= low && node.val <= hi) {
 			System.out.print(node.val + " ");
 		}
-		if (hi >= node.val) {
+		if (hi > node.val) {
 			print_inOrder_range(node.right, low, hi);
 		}
 	}
@@ -276,6 +277,29 @@ public class AVLTree {
 		}
 		node.height = Math.max(heightHelper(node.left), heightHelper(node.right));
 		return node.height + 1;
+	}
+
+	public boolean check_all_heights() {
+		return check_all_heights_helper(root);
+	}
+
+	private boolean check_all_heights_helper(AVLNode node) {
+		if (node == null) {
+			return true;
+		} else if (node.right == null && node.left == null) {
+			if (node.height == 0) {
+				return true;
+			} else {
+				return false;
+			}
+		} else {
+			if (node.height == Math.max(node.left.height, node.right.height) + 1) {
+				return check_all_heights_helper(node.left) && check_all_heights_helper(node.right);
+			} else {
+				return false;
+			}
+		}
+
 	}
 
 	/*
