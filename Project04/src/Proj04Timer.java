@@ -1,3 +1,4 @@
+
 // Proj04Timer
 //
 // main() class for the timing of operations in Project 4.  This will perform
@@ -10,11 +11,10 @@
 // In all cases, this program will perform 10 iterations of each test (using
 // identical but random input data for each data structure type).  It will
 // discard the min & max times, and then average the rest.
-//
-// Authors: Russ Lewis, Andrew Predoehl
 
 import java.util.HashSet;
 import java.util.ArrayList;
+import java.util.Arrays;
 
 public class Proj04Timer {
 	public static void main(String[] args) {
@@ -44,10 +44,12 @@ public class Proj04Timer {
 		}
 
 		// check to make sure that the 'type' is valid.
-		if (!args[3].equals("insert") && !args[3].equals("delete") && !args[3].equals("search-hit")
-				&& !args[3].equals("search-miss") && !args[3].equals("getKeys") && !args[3].equals("getSuccessor")) {
+		if (!args[3].equals("insert") && !args[3].equals("insert-sorted") && !args[3].equals("delete")
+				&& !args[3].equals("search-hit") && !args[3].equals("search-miss") && !args[3].equals("getKeys")
+				&& !args[3].equals("getSuccessor")) {
 			System.err.printf(
-					"ERROR: The test type '%s' is not a recognized operation.  The possible operations are: insert,delete,search-hit,search-miss,getKeys,getSuccessor");
+					"ERROR: The test type '%s' is not a recognized operation.  The possible operations are: insert,insert-sorted,delete,search-hit,search-miss,getKeys,getSuccessor",
+					args[3]);
 			System.exit(1);
 		}
 
@@ -86,20 +88,20 @@ public class Proj04Timer {
 		// values. How we use the probe values varies based on the
 		// testcase type; see elsewhere.
 
-		System.err.printf("size=%d : generating the input data...", size);
+		// System.err.printf("size=%d : generating the input data...", size);
 
 		int[][] keys = new int[COUNT][];
 		String[][] vals = new String[COUNT][];
 
 		for (int i = 0; i < COUNT; i++) {
-			keys[i] = randIntArray(size);
+			keys[i] = randIntArray(size, type.equals("insert-sorted"));
 			vals[i] = new String[size];
 
 			for (int j = 0; j < size; j++)
 				vals[i][j] = "valueOf_" + keys[i][j];
 		}
 
-		System.err.println("done.");
+		// System.err.println("done.");
 
 		// now, build the arrays of dictionaries which will be used in
 		// the tests. This is a 2D array; the internal arrays are of
@@ -242,7 +244,7 @@ public class Proj04Timer {
 		/*
 		 * The type string could be any of the Proj04Dictionary methods.
 		 */
-		if (type.equals("insert")) {
+		if (type.equals("insert") || type.equals("insert-sorted")) {
 			for (int i = 0; i < keys.length; i++)
 				dict.insert(keys[i], vals[i]);
 		} else if (type.equals("delete")) {
@@ -279,7 +281,7 @@ public class Proj04Timer {
 	// initDict() - initializes a Dictionary before the clock begins (if
 	// necessary)
 	public static void initDict(Proj04Dictionary dict, String type, int[] keys, String[] vals) {
-		if (type.equals("insert"))
+		if (type.equals("insert") || type.equals("insert-sorted"))
 			return; // NOP
 
 		/*
@@ -296,7 +298,7 @@ public class Proj04Timer {
 			dict.insert(keys[perm.get(i)], vals[perm.get(i)]);
 	}
 
-	public static int[] randIntArray(int size) {
+	public static int[] randIntArray(int size, boolean sorted) {
 		HashSet<Integer> nums = new HashSet<Integer>();
 
 		int[] retval = new int[size];
@@ -309,6 +311,11 @@ public class Proj04Timer {
 			nums.add(val);
 			retval[i] = val;
 		}
+
+		/* sort as the last step, if desired */
+		if (sorted)
+			Arrays.sort(retval);
+
 		return retval;
 	}
 }

@@ -1,3 +1,4 @@
+import java.util.SortedMap;
 import java.util.TreeMap;
 
 public class TreeMap_Wrapper implements Proj04Dictionary {
@@ -43,30 +44,24 @@ public class TreeMap_Wrapper implements Proj04Dictionary {
 	}
 
 	public int getSuccessor(int key) throws IllegalArgumentException {
+		// Throw, if the key is not present.
 		if (!dict.containsKey(key)) {
 			throw new IllegalArgumentException();
 		}
-		Integer[] keys = this.getKeys();
 
-		// Scan the keys for the "least upper bound," i.e.,
-		// min { k in dict : k > key }. This takes linear time (ouch).
-		// We store a flag to indicate whether that set has any members.
-		boolean found = false;
-		int successor = key;
-		for (int j = 0; j < keys.length; ++j) {
-			if (key < keys[j]) {
-				if (!found) {
-					successor = keys[j];
-					found = true;
-				} else
-					successor = Math.min(successor, keys[j]);
-			}
-		}
+		/*
+		 * Obtain a so-called "tail map" containing all records with keys larger
+		 * than 'key' -- specifically, 'key'+1 or larger. This is just a view of
+		 * the same dictionary, rather than a copy.
+		 */
+		SortedMap<Integer, String> tm = dict.tailMap(key + 1);
 
-		// If 'key' is the max value, then its successor does not exist.
-		if (!found) {
+		// Throw, if no successor exists.
+		if (tm.isEmpty()) {
 			throw new IllegalArgumentException();
 		}
-		return successor;
+
+		// Otherwise, return the first key in the tail map.
+		return tm.firstKey();
 	}
 }
