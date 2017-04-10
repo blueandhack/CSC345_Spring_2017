@@ -18,4 +18,15 @@ public class HashTable implements Proj04Dictionary {
 	public int getSuccessor(int key) throws IllegalArgumentException {
 		throw new RuntimeException("TODO");
 	}
+
+	private class HashNode {
+		private int key;
+		private String data;
+
+		public HashNode(int key, String data) {
+			this.key = key;
+			this.data = data;
+		}
+
+	}
 }

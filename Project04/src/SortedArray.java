@@ -47,9 +47,9 @@ public class SortedArray implements Proj04Dictionary {
 		private Element next;
 
 		public Element(int key, String data) {
-			key = key;
-			data = data;
-			next = null;
+			this.key = key;
+			this.data = data;
+			this.next = null;
 		}
 	}
 }
