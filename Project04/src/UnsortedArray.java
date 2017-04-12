@@ -1,31 +1,18 @@
+import java.util.ArrayList;
+
 public class UnsortedArray implements Proj04Dictionary {
 
-	private Element first;
-	private int size;
+	private ArrayList<Element> unsortedArray;
 
 	public UnsortedArray() {
-		first = null;
-		size = 0;
+		unsortedArray = new ArrayList<Element>();
 	}
 
 	public void insert(int key, String data) throws IllegalArgumentException {
-		if (data == null) {
-			throw new IllegalArgumentException();
-		}
 		if (search(key) != null) {
 			throw new IllegalArgumentException();
 		}
-		Element ref = first;
-		if (ref == null) {
-			ref = new Element(key, data);
-			size++;
-		} else {
-			while (ref.next != null) {
-				ref = ref.next;
-			}
-			ref.next = new Element(key, data);
-			size++;
-		}
+		this.unsortedArray.add(new Element(key, data));
 	}
 
 	public void delete(int key) throws IllegalArgumentException {
@@ -33,37 +20,30 @@ public class UnsortedArray implements Proj04Dictionary {
 			throw new IllegalArgumentException();
 		}
 
-		Element ref = first;
-		Element last = ref;
-		while (ref != null) {
-			if (ref.key == key) {
-				last = ref.next;
-				return;
+		int found = 0;
+		for (int i = 0; i < unsortedArray.size(); i++) {
+			if (unsortedArray.get(i).key == key) {
+				found = i;
+				break;
 			}
-			last = ref;
-			ref = ref.next;
 		}
+		unsortedArray.remove(found);
 	}
 
 	public String search(int key) {
-		Element ref = first;
-		if (first == null) {
-			return null;
-		}
-		while (ref.next != null) {
-			if (ref.key == key) {
-				return ref.data;
+		for (int i = 0; i < this.unsortedArray.size(); i++) {
+			if (unsortedArray.get(i).key == key) {
+				return unsortedArray.get(i).data;
 			}
 		}
 		return null;
 	}
 
 	public Integer[] getKeys() {
-		Integer[] array = new Integer[size];
+		Integer[] array = new Integer[this.unsortedArray.size()];
 		int i = 0;
-		Element ref = first;
-		while (ref != null) {
-			array[i] = ref.key;
+		for (Element element : unsortedArray) {
+			array[i] = element.key;
 			i++;
 		}
 		return array;
@@ -97,12 +77,10 @@ public class UnsortedArray implements Proj04Dictionary {
 	private class Element {
 		private int key;
 		private String data;
-		private Element next;
 
 		public Element(int key, String data) {
 			this.key = key;
 			this.data = data;
-			this.next = null;
 		}
 	}
 

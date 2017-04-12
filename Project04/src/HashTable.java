@@ -45,17 +45,15 @@ public class HashTable implements Proj04Dictionary {
 	public String search(int key) {
 		int code = this.hash(key);
 		HashNode temp = null;
-
 		for (int i = 0; i < table.get(code).size(); i++) {
 			if (table.get(code).get(i).key == key) {
 				temp = table.get(code).get(i);
+				break;
 			}
 		}
-
 		if (temp == null) {
 			throw new IllegalArgumentException();
 		}
-
 		return temp.data;
 	}
 
@@ -76,7 +74,23 @@ public class HashTable implements Proj04Dictionary {
 			throw new IllegalArgumentException();
 		}
 
+		Integer[] keys = this.getKeys();
+		boolean found = false;
 		int successor = key;
+
+		for (int j = 0; j < keys.length; ++j) {
+			if (key < keys[j]) {
+				if (!found) {
+					successor = keys[j];
+					found = true;
+				} else
+					successor = Math.min(successor, keys[j]);
+			}
+		}
+
+		if (!found) {
+			throw new IllegalArgumentException();
+		}
 
 		return successor;
 	}

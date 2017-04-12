@@ -1,3 +1,5 @@
+import java.util.ArrayList;
+
 public class BST implements Proj04Dictionary {
 
 	private TreeNode root;
@@ -9,11 +11,65 @@ public class BST implements Proj04Dictionary {
 	}
 
 	public void insert(int key, String data) throws IllegalArgumentException {
-		throw new RuntimeException("TODO");
+		if (search(key) != null) {
+			throw new IllegalArgumentException();
+		}
+		root = insert(key, data, root);
+		count++;
+	}
+
+	private TreeNode insert(int key, String data, TreeNode node) {
+		if (node == null) {
+			node = new TreeNode(key, data);
+			this.count++;
+		} else if (node.key > key) {
+			node.left = insert(key, data, node.left);
+		} else if (node.key < key) {
+			node.right = insert(key, data, node.right);
+		}
+		return node;
 	}
 
 	public void delete(int key) throws IllegalArgumentException {
-		throw new RuntimeException("TODO");
+		if (search(key) == null) {
+			throw new IllegalArgumentException();
+		}
+		root = delete(key, root);
+		count--;
+	}
+
+	private TreeNode delete(int key, TreeNode node) {
+		if (node == null) {
+			return node;
+		} else if (node.key > key) {
+			// If data less than the node's data, then go to left
+			node.left = delete(key, node.left);
+		} else if (node.key < key) {
+			// If data more than the node's data, then go to right
+			node.right = delete(key, node.right);
+		} else if (node.left != null && node.right != null) {
+			// If the node has two child
+			node.key = findMax(node.left).key;
+			node.data = findMax(node.left).data;
+			node.left = delete(node.key, node.left);
+		} else {
+			// If the node has one child or not
+			if (node.left != null) {
+				node = node.left;
+			} else {
+				node = node.right;
+			}
+		}
+		return node;
+	}
+
+	private TreeNode findMax(TreeNode node) {
+		if (node == null) {
+			return null;
+		} else if (node.right == null) {
+			return node;
+		}
+		return findMax(node.right);
 	}
 
 	public String search(int key) {
@@ -26,19 +82,55 @@ public class BST implements Proj04Dictionary {
 		} else if (node.key == key) {
 			return node.data;
 		} else if (node.key < key) {
-			return search(key, node.rightChild);
+			return search(key, node.right);
 		} else {
-			return search(key, node.leftChild);
+			return search(key, node.left);
 		}
-
 	}
 
 	public Integer[] getKeys() {
-		throw new RuntimeException("TODO");
+		Integer[] array = new Integer[this.count];
+		ArrayList<Integer> keys = new ArrayList<>();
+		preOrder(root, keys);
+		int i = 0;
+		for (Integer integer : keys) {
+			array[i] = integer;
+			i++;
+		}
+		return array;
+	}
+
+	private void preOrder(TreeNode node, ArrayList<Integer> keys) {
+		if (node == null) {
+			return;
+		} else if (node.left == null && node.right == null) {
+			keys.add(node.key);
+		}
+		keys.add(node.key);
+		preOrder(node.left, keys);
+		preOrder(node.right, keys);
 	}
 
 	public int getSuccessor(int key) throws IllegalArgumentException {
-		throw new RuntimeException("TODO");
+		if (this.search(key) == null) {
+			throw new IllegalArgumentException();
+		}
+		Integer[] keys = this.getKeys();
+		boolean found = false;
+		int successor = key;
+		for (int j = 0; j < keys.length; ++j) {
+			if (key < keys[j]) {
+				if (!found) {
+					successor = keys[j];
+					found = true;
+				} else
+					successor = Math.min(successor, keys[j]);
+			}
+		}
+		if (!found) {
+			throw new IllegalArgumentException();
+		}
+		return successor;
 	}
 
 	// The class is tree node
@@ -46,32 +138,15 @@ public class BST implements Proj04Dictionary {
 		private int key;
 		private String data;
 
-		private TreeNode leftChild;
-		private TreeNode rightChild;
+		private TreeNode left;
+		private TreeNode right;
 
 		// Constructor, create a node but it doesn't have left and right
-		public TreeNode(int key) {
+		public TreeNode(int key, String data) {
 			this.key = key;
-			this.leftChild = null;
-			this.rightChild = null;
-		}
-
-		// To get key
-		public int getKey() {
-			return key;
-		}
-
-		// Set key
-		public void setKey(int key) {
-			this.key = key;
-		}
-
-		// Check the node is it a leaf by no left and right child
-		public boolean isLeaf() {
-			if (this.leftChild == null && this.rightChild == null) {
-				return true;
-			}
-			return false;
+			this.data = data;
+			this.left = null;
+			this.right = null;
 		}
 
 	}
