@@ -178,3 +178,8 @@ hs_err_pid*
 
 # End of https://www.gitignore.io/api/macos,eclipse,java,windows,jetbrains,git
 *.dot
+/Project04/src/Test_09_random.java
+/Project04/src/Test_05_multipleDelete.java
+/Project04/src/Test_06_getKeys.java
+/Project04/src/Test_07_getSuccessor.java
+/Project04/src/Test_08_exceptions.java
