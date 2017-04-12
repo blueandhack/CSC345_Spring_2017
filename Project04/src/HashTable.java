@@ -38,7 +38,7 @@ public class HashTable implements Proj04Dictionary {
 				break;
 			}
 		}
-		table.remove(i);
+		table.get(code).remove(i);
 		count--;
 	}
 

@@ -12,6 +12,11 @@ public class HashTable_TestCase {
 		hs.insert(3, "c");
 		hs.insert(4, "d");
 		assertEquals(3, hs.getSuccessor(2));
+		hs.delete(1);
+		hs.delete(2);
+		hs.delete(3);
+		hs.delete(4);
+
 	}
 
 }
