@@ -2,7 +2,7 @@ import static org.junit.Assert.*;
 
 import org.junit.Test;
 
-public class HashTable_TestCase {
+public class HashTableTest {
 
 	@Test
 	public void test() {

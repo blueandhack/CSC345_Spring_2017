@@ -19,7 +19,7 @@ public class HashTable implements Proj04Dictionary {
 	}
 
 	public void insert(int key, String data) throws IllegalArgumentException {
-		if (search(key) != null) {
+		if (data == null || search(key) != null) {
 			throw new IllegalArgumentException();
 		}
 		int code = this.hash(key);

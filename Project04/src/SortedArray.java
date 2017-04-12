@@ -9,7 +9,7 @@ public class SortedArray implements Proj04Dictionary {
 	}
 
 	public void insert(int key, String data) throws IllegalArgumentException {
-		if (search(key) != null) {
+		if (data == null || search(key) != null) {
 			throw new IllegalArgumentException();
 		}
 		for (int i = 0; i < sortedArray.size(); i++) {

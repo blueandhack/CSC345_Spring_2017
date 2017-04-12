@@ -1,4 +1,3 @@
-import java.util.ArrayList;
 
 public class AVLTree implements Proj04Dictionary {
 
@@ -11,7 +10,7 @@ public class AVLTree implements Proj04Dictionary {
 	}
 
 	public void insert(int key, String data) throws IllegalArgumentException {
-		if (search(key) != null) {
+		if (data == null || search(key) != null) {
 			throw new IllegalArgumentException();
 		}
 		root = insert(root, key, data);
@@ -101,25 +100,22 @@ public class AVLTree implements Proj04Dictionary {
 
 	public Integer[] getKeys() {
 		Integer[] array = new Integer[this.count];
-		ArrayList<Integer> keys = new ArrayList<>();
-		preOrder(root, keys);
-		int i = 0;
-		for (Integer integer : keys) {
-			array[i] = integer;
-			i++;
+		if (count != 0) {
+			String[] keys = preOrder(root).split("\\s+");
+			int i = 0;
+			for (String integer : keys) {
+				array[i] = Integer.parseInt(integer);
+				i++;
+			}
 		}
 		return array;
 	}
 
-	private void preOrder(AVLNode node, ArrayList<Integer> keys) {
+	private String preOrder(AVLNode node) {
 		if (node == null) {
-			return;
-		} else if (node.left == null && node.right == null) {
-			keys.add(node.key);
+			return "";
 		}
-		keys.add(node.key);
-		preOrder(node.left, keys);
-		preOrder(node.right, keys);
+		return node.key + " " + preOrder(node.left) + preOrder(node.right);
 	}
 
 	public int getSuccessor(int key) throws IllegalArgumentException {

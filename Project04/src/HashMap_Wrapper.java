@@ -9,7 +9,6 @@
  */
 import java.util.HashMap;
 import java.util.Set;
-import java.util.Arrays;
 
 public class HashMap_Wrapper implements Proj04Dictionary {
 	// Private HashMap implements our dictionary
@@ -71,30 +70,26 @@ public class HashMap_Wrapper implements Proj04Dictionary {
 	 * comes the pain now.
 	 */
 	public int getSuccessor(int key) throws IllegalArgumentException {
-		if (!dict.containsKey(key)) {
+		if (!dict.containsKey(key))
 			throw new IllegalArgumentException();
-		}
-		Integer[] keys = this.getKeys();
 
-		// Scan the keys for the "least upper bound," i.e.,
-		// min { k in dict : k > key }. This takes linear time (ouch).
-		// We store a flag to indicate whether that set has any members.
+		Set<Integer> keys = dict.keySet();
+
+		int best = Integer.MAX_VALUE;
 		boolean found = false;
-		int successor = key;
-		for (int j = 0; j < keys.length; ++j) {
-			if (key < keys[j]) {
-				if (!found) {
-					successor = keys[j];
-					found = true;
-				} else
-					successor = Math.min(successor, keys[j]);
-			}
+
+		for (Integer i : keys) {
+			if (i <= key)
+				continue;
+
+			found = true;
+			if (i < best)
+				best = i;
 		}
 
-		// If 'key' is the max value, then its successor does not exist.
-		if (!found) {
+		if (found == false)
 			throw new IllegalArgumentException();
-		}
-		return successor;
+
+		return best;
 	}
 }

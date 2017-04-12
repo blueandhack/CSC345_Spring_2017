@@ -1,4 +1,3 @@
-import java.util.SortedMap;
 import java.util.TreeMap;
 
 public class TreeMap_Wrapper implements Proj04Dictionary {
@@ -45,23 +44,13 @@ public class TreeMap_Wrapper implements Proj04Dictionary {
 
 	public int getSuccessor(int key) throws IllegalArgumentException {
 		// Throw, if the key is not present.
-		if (!dict.containsKey(key)) {
+		if (!dict.containsKey(key))
 			throw new IllegalArgumentException();
-		}
 
-		/*
-		 * Obtain a so-called "tail map" containing all records with keys larger
-		 * than 'key' -- specifically, 'key'+1 or larger. This is just a view of
-		 * the same dictionary, rather than a copy.
-		 */
-		SortedMap<Integer, String> tm = dict.tailMap(key + 1);
-
-		// Throw, if no successor exists.
-		if (tm.isEmpty()) {
+		Integer succ = dict.ceilingKey(key);
+		if (succ == null)
 			throw new IllegalArgumentException();
-		}
 
-		// Otherwise, return the first key in the tail map.
-		return tm.firstKey();
+		return succ;
 	}
 }
