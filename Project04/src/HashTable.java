@@ -52,7 +52,7 @@ public class HashTable implements Proj04Dictionary {
 			}
 		}
 		if (temp == null) {
-			throw new IllegalArgumentException();
+			return null;
 		}
 		return temp.data;
 	}
