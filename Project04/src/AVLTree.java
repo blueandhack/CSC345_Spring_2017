@@ -123,21 +123,22 @@ public class AVLTree implements Proj04Dictionary {
 			throw new IllegalArgumentException();
 		}
 		Integer[] keys = this.getKeys();
+		int best = Integer.MAX_VALUE;
 		boolean found = false;
-		int successor = key;
-		for (int j = 0; j < keys.length; ++j) {
-			if (key < keys[j]) {
-				if (!found) {
-					successor = keys[j];
-					found = true;
-				} else
-					successor = Math.min(successor, keys[j]);
-			}
+
+		for (Integer i : keys) {
+			if (i <= key)
+				continue;
+
+			found = true;
+			if (i < best)
+				best = i;
 		}
-		if (!found) {
+
+		if (found == false)
 			throw new IllegalArgumentException();
-		}
-		return successor;
+
+		return best;
 	}
 
 	private int heightHelper(AVLNode node) {

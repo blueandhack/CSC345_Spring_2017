@@ -71,23 +71,23 @@ public class SortedArray implements Proj04Dictionary {
 		}
 		Integer[] keys = this.getKeys();
 
+		int best = Integer.MAX_VALUE;
 		boolean found = false;
-		int successor = key;
-		for (int i = 0; i < keys.length; i++) {
-			if (key < keys[i]) {
-				if (!found) {
-					successor = keys[i];
-					found = true;
-				} else {
-					successor = Math.min(successor, keys[i]);
-				}
-			}
+
+		for (Integer i : keys) {
+			if (i <= key)
+				continue;
+
+			found = true;
+			if (i < best)
+				best = i;
 		}
 
-		if (!found) {
+		if (found == false)
 			throw new IllegalArgumentException();
-		}
-		return successor;
+
+		return best;
+
 	}
 
 	private class Element {

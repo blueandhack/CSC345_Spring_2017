@@ -11,11 +11,10 @@ public class HashTableTest {
 		hs.insert(2, "b");
 		hs.insert(3, "c");
 		hs.insert(4, "d");
+		hs.insert(5, "e");
+		hs.insert(6, "f");
 		assertEquals(3, hs.getSuccessor(2));
-		hs.delete(1);
-		hs.delete(2);
-		hs.delete(3);
-		hs.delete(4);
+		assertEquals(4, hs.getSuccessor(3));
 
 	}
 
