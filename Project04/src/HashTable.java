@@ -3,7 +3,7 @@ import java.util.LinkedList;
 public class HashTable implements Proj04Dictionary {
 
 	private LinkedList<LinkedList<HashNode>> table;
-	private int tableSize = 10;
+	private int tableSize = 1024;
 	private int count;
 
 	public HashTable() {
@@ -25,6 +25,26 @@ public class HashTable implements Proj04Dictionary {
 		int code = this.hash(key);
 		table.get(code).add(new HashNode(key, data));
 		count++;
+		if (count / tableSize > 0.75) {
+			resize();
+		}
+	}
+
+	private void resize() {
+		tableSize = tableSize * 2;
+		LinkedList<LinkedList<HashNode>> oldTable = table;
+		table = new LinkedList<LinkedList<HashNode>>();
+		for (int i = 0; i < tableSize; i++) {
+			table.add(new LinkedList<HashNode>());
+		}
+		for (int i = 0; i < oldTable.size(); i++) {
+			if (oldTable.get(i).size() != 0) {
+				for (int j = 0; j < oldTable.get(i).size(); j++) {
+					int code = this.hash(oldTable.get(i).get(j).key);
+					table.get(code).add(oldTable.get(i).get(j));
+				}
+			}
+		}
 	}
 
 	public void delete(int key) throws IllegalArgumentException {
