@@ -55,6 +55,7 @@ public class AVLTree implements Proj04Dictionary {
 		} else if (subtree.left != null && subtree.right != null) {
 			// If the node has two child
 			subtree.key = findMax(subtree.left).key;
+			subtree.data = findMax(subtree.left).data;
 			subtree.left = delete(subtree.left, subtree.key);
 		} else {
 			// If the node has one child or not
