@@ -1,25 +1,46 @@
+
+/*
+ * UnsortedArray.java
+ *
+ * CSc 345 Spring 2017 - Project04
+ * 
+ * Author: Yujia Lin
+ *
+ * ---
+ * The class is a data structure that is unsorted array
+ */
+
 import java.util.ArrayList;
 
 public class UnsortedArray implements Proj04Dictionary {
 
+	// the instance variable as an empty array
 	private ArrayList<Element> unsortedArray;
 
+	// constructor
 	public UnsortedArray() {
 		unsortedArray = new ArrayList<Element>();
 	}
 
+	// insert an element
 	public void insert(int key, String data) throws IllegalArgumentException {
+
+		// check the key
 		if (data == null || search(key) != null) {
 			throw new IllegalArgumentException();
 		}
 		this.unsortedArray.add(new Element(key, data));
 	}
 
+	// delete an element by key
 	public void delete(int key) throws IllegalArgumentException {
+
+		// check the key
 		if (search(key) == null) {
 			throw new IllegalArgumentException();
 		}
 
+		// get index
 		int found = 0;
 		for (int i = 0; i < unsortedArray.size(); i++) {
 			if (unsortedArray.get(i).key == key) {
@@ -30,6 +51,7 @@ public class UnsortedArray implements Proj04Dictionary {
 		unsortedArray.remove(found);
 	}
 
+	// search an element by key
 	public String search(int key) {
 		for (int i = 0; i < this.unsortedArray.size(); i++) {
 			if (unsortedArray.get(i).key == key) {
@@ -39,6 +61,7 @@ public class UnsortedArray implements Proj04Dictionary {
 		return null;
 	}
 
+	// get keys
 	public Integer[] getKeys() {
 		Integer[] array = new Integer[this.unsortedArray.size()];
 		int i = 0;
@@ -49,6 +72,7 @@ public class UnsortedArray implements Proj04Dictionary {
 		return array;
 	}
 
+	// get successor
 	public int getSuccessor(int key) throws IllegalArgumentException {
 		if (search(key) == null) {
 			throw new IllegalArgumentException();
@@ -58,6 +82,7 @@ public class UnsortedArray implements Proj04Dictionary {
 		int best = Integer.MAX_VALUE;
 		boolean found = false;
 
+		// find best successor in keys
 		for (Integer i : keys) {
 			if (i <= key)
 				continue;
@@ -73,6 +98,7 @@ public class UnsortedArray implements Proj04Dictionary {
 		return best;
 	}
 
+	// the private class is element
 	private class Element {
 		private int key;
 		private String data;

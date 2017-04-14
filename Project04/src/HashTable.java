@@ -1,11 +1,28 @@
+
+/*
+ * HashTable.java
+ *
+ * CSc 345 Spring 2017 - Project04
+ * 
+ * Author: Yujia Lin
+ *
+ * ---
+ * The class is a data structure that is hash table
+ */
+
 import java.util.LinkedList;
 
 public class HashTable implements Proj04Dictionary {
 
+	// instance variable
+	// table can contains all linked list
 	private LinkedList<LinkedList<HashNode>> table;
+	// table size
 	private int tableSize = 1024;
+	// how many hash node we have
 	private int count;
 
+	// constructor
 	public HashTable() {
 		table = new LinkedList<LinkedList<HashNode>>();
 		for (int i = 0; i < tableSize; i++) {
@@ -14,22 +31,30 @@ public class HashTable implements Proj04Dictionary {
 		count = 0;
 	}
 
+	// hash function can get hash code, then find position at the table
 	private int hash(int key) {
 		return Math.abs(key) % tableSize;
 	}
 
+	// insert hash node to table
 	public void insert(int key, String data) throws IllegalArgumentException {
+		// check
 		if (data == null || search(key) != null) {
 			throw new IllegalArgumentException();
 		}
+
+		// add hash node to table
 		int code = this.hash(key);
 		table.get(code).add(new HashNode(key, data));
 		count++;
+
+		// resize the table
 		if (count / tableSize > 0.75) {
 			resize();
 		}
 	}
 
+	// resize the table
 	private void resize() {
 		tableSize = tableSize * 2;
 		LinkedList<LinkedList<HashNode>> oldTable = table;
@@ -47,6 +72,7 @@ public class HashTable implements Proj04Dictionary {
 		}
 	}
 
+	// delete hash node by key
 	public void delete(int key) throws IllegalArgumentException {
 		if (search(key) == null) {
 			throw new IllegalArgumentException();
@@ -62,6 +88,7 @@ public class HashTable implements Proj04Dictionary {
 		count--;
 	}
 
+	// search hash node by key
 	public String search(int key) {
 		int code = this.hash(key);
 		HashNode temp = null;
@@ -77,6 +104,7 @@ public class HashTable implements Proj04Dictionary {
 		return temp.data;
 	}
 
+	// get keys
 	public Integer[] getKeys() {
 		Integer[] array = new Integer[count];
 		int i = 0;
@@ -89,6 +117,7 @@ public class HashTable implements Proj04Dictionary {
 		return array;
 	}
 
+	// get successor
 	public int getSuccessor(int key) throws IllegalArgumentException {
 		if (this.search(key) == null) {
 			throw new IllegalArgumentException();
@@ -113,6 +142,7 @@ public class HashTable implements Proj04Dictionary {
 		return best;
 	}
 
+	// the private class is hash node
 	private class HashNode {
 		private int key;
 		private String data;

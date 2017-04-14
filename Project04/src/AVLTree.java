@@ -1,14 +1,29 @@
+/*
+ * AVLTree.java
+ *
+ * CSc 345 Spring 2017 - Project04
+ * 
+ * Author: Yujia Lin
+ *
+ * ---
+ * The class is a data structure that is AVL tree
+ */
 
 public class AVLTree implements Proj04Dictionary {
 
+	// instance variables
+	// root is empty tree
 	private AVLNode root;
+	// count how many node in the tree
 	private int count;
 
+	// constructor
 	public AVLTree() {
 		root = null;
 		count = 0;
 	}
 
+	// insert node
 	public void insert(int key, String data) throws IllegalArgumentException {
 		if (data == null || search(key) != null) {
 			throw new IllegalArgumentException();
@@ -17,6 +32,7 @@ public class AVLTree implements Proj04Dictionary {
 		count++;
 	}
 
+	// help method for insert node
 	private AVLNode insert(AVLNode subtree, int key, String data) {
 		if (subtree == null) {
 			subtree = new AVLNode(key, data);
@@ -35,6 +51,7 @@ public class AVLTree implements Proj04Dictionary {
 		return subtree;
 	}
 
+	// delete node by key
 	public void delete(int key) throws IllegalArgumentException {
 		if (search(key) == null) {
 			throw new IllegalArgumentException();
@@ -43,6 +60,7 @@ public class AVLTree implements Proj04Dictionary {
 		count--;
 	}
 
+	// helper method for delete
 	private AVLNode delete(AVLNode subtree, int key) {
 		if (subtree == null) {
 			return subtree;
@@ -83,10 +101,12 @@ public class AVLTree implements Proj04Dictionary {
 		return findMax(node.right);
 	}
 
+	// search node by key
 	public String search(int key) {
 		return search(root, key);
 	}
 
+	// helper method for search
 	private String search(AVLNode node, int key) {
 		if (node == null) {
 			return null;
@@ -99,6 +119,7 @@ public class AVLTree implements Proj04Dictionary {
 		}
 	}
 
+	// get keys
 	public Integer[] getKeys() {
 		Integer[] array = new Integer[this.count];
 		if (count != 0) {
@@ -112,6 +133,7 @@ public class AVLTree implements Proj04Dictionary {
 		return array;
 	}
 
+	// pre-order to get a string
 	private String preOrder(AVLNode node) {
 		if (node == null) {
 			return "";
@@ -119,6 +141,7 @@ public class AVLTree implements Proj04Dictionary {
 		return node.key + " " + preOrder(node.left) + preOrder(node.right);
 	}
 
+	// get successor
 	public int getSuccessor(int key) throws IllegalArgumentException {
 		if (this.search(key) == null) {
 			throw new IllegalArgumentException();
@@ -142,6 +165,7 @@ public class AVLTree implements Proj04Dictionary {
 		return best;
 	}
 
+	// set height
 	private int heightHelper(AVLNode node) {
 		if (node == null) {
 			return 0;
@@ -150,6 +174,7 @@ public class AVLTree implements Proj04Dictionary {
 		return node.height + 1;
 	}
 
+	// get height
 	private int getHeight(AVLNode subtree) {
 		if (subtree == null) {
 			return -1;
@@ -158,6 +183,7 @@ public class AVLTree implements Proj04Dictionary {
 		}
 	}
 
+	// re balance the tree
 	private AVLNode rebalance(AVLNode node) {
 		if (node.left == null && node.right == null) {
 			// do nothing
@@ -179,6 +205,7 @@ public class AVLTree implements Proj04Dictionary {
 		return node;
 	}
 
+	// rotate right
 	private AVLNode rotateRight(AVLNode subtree) {
 		AVLNode newRoot = subtree.left;
 		subtree.left = newRoot.right;
@@ -186,6 +213,7 @@ public class AVLTree implements Proj04Dictionary {
 		return newRoot;
 	}
 
+	// rotate left
 	private AVLNode rotateLeft(AVLNode subtree) {
 		AVLNode newRoot = subtree.right;
 		subtree.right = newRoot.left;
@@ -205,6 +233,7 @@ public class AVLTree implements Proj04Dictionary {
 		return rotateRight(node);
 	}
 
+	// the private class is AVL tree node
 	private class AVLNode {
 		private AVLNode left, right;
 		private int height;

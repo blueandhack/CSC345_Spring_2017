@@ -1,14 +1,28 @@
-
+/*
+ * BST.java
+ *
+ * CSc 345 Spring 2017 - Project04
+ * 
+ * Author: Yujia Lin
+ *
+ * ---
+ * The class is a data structure that is binary search tree
+ */
 public class BST implements Proj04Dictionary {
 
+	// instance variables
+	// the root is empty tree
 	private TreeNode root;
+	// count how many node we have
 	private int count;
 
+	// constructor
 	public BST() {
 		count = 0;
 		root = null;
 	}
 
+	// insert node
 	public void insert(int key, String data) throws IllegalArgumentException {
 		if (data == null || search(key) != null) {
 			throw new IllegalArgumentException();
@@ -18,6 +32,7 @@ public class BST implements Proj04Dictionary {
 		// System.out.println("insert: " + count);
 	}
 
+	// the helper method help insert function
 	private TreeNode insert(int key, String data, TreeNode node) {
 		if (node == null) {
 			node = new TreeNode(key, data);
@@ -29,6 +44,7 @@ public class BST implements Proj04Dictionary {
 		return node;
 	}
 
+	// delete node by key
 	public void delete(int key) throws IllegalArgumentException {
 		if (search(key) == null) {
 			throw new IllegalArgumentException();
@@ -37,6 +53,7 @@ public class BST implements Proj04Dictionary {
 		count--;
 	}
 
+	// delete helper method
 	private TreeNode delete(int key, TreeNode node) {
 		if (node == null) {
 			return node;
@@ -62,6 +79,7 @@ public class BST implements Proj04Dictionary {
 		return node;
 	}
 
+	// find max node at the subtree
 	private TreeNode findMax(TreeNode node) {
 		if (node == null) {
 			return null;
@@ -71,10 +89,12 @@ public class BST implements Proj04Dictionary {
 		return findMax(node.right);
 	}
 
+	// search node
 	public String search(int key) {
 		return search(key, root);
 	}
 
+	// search helper method
 	private String search(int key, TreeNode node) {
 		if (node == null) {
 			return null;
@@ -87,6 +107,7 @@ public class BST implements Proj04Dictionary {
 		}
 	}
 
+	// get keys
 	public Integer[] getKeys() {
 		Integer[] array = new Integer[this.count];
 		if (count != 0) {
@@ -100,6 +121,7 @@ public class BST implements Proj04Dictionary {
 		return array;
 	}
 
+	// pre-order to get a string
 	private String preOrder(TreeNode node) {
 		if (node == null) {
 			return "";
@@ -107,6 +129,7 @@ public class BST implements Proj04Dictionary {
 		return node.key + " " + preOrder(node.left) + preOrder(node.right);
 	}
 
+	// get successor
 	public int getSuccessor(int key) throws IllegalArgumentException {
 		if (this.search(key) == null) {
 			throw new IllegalArgumentException();
@@ -138,7 +161,7 @@ public class BST implements Proj04Dictionary {
 		private TreeNode left;
 		private TreeNode right;
 
-		// Constructor, create a node but it doesn't have left and right
+		// constructor, create a node but it doesn't have left and right
 		public TreeNode(int key, String data) {
 			this.key = key;
 			this.data = data;
