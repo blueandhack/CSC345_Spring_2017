@@ -43,12 +43,15 @@ public class AVLTree implements Proj04Dictionary {
 		} else if (subtree.key == key) {
 			throw new IllegalArgumentException();
 		}
-		heightHelper(subtree);
-		if (subtree != null) {
-			subtree = rebalance(subtree);
-		}
-		heightHelper(subtree);
-		return subtree;
+		// heightHelper(subtree);
+		subtree.height = 1 + Math.max(getHeight(subtree.left), getHeight(subtree.right));
+		// if (subtree != null) {
+		// subtree = rebalance(subtree);
+		// }
+		// subtree.height = 1 + Math.max(getHeight(subtree.left),
+		// getHeight(subtree.right));
+		// return subtree;
+		return rebalance(subtree);
 	}
 
 	// delete node by key
@@ -83,12 +86,17 @@ public class AVLTree implements Proj04Dictionary {
 				subtree = subtree.right;
 			}
 		}
-		heightHelper(subtree);
+
+		// heightHelper(subtree);
+		// if (subtree != null) {
+		// subtree = rebalance(subtree);
+		// }
+		// heightHelper(subtree);
+		// return subtree;
 		if (subtree != null) {
-			subtree = rebalance(subtree);
+			subtree.height = 1 + Math.max(getHeight(subtree.left), getHeight(subtree.right));
 		}
-		heightHelper(subtree);
-		return subtree;
+		return rebalance(subtree);
 	}
 
 	// The private method will find max node at the left subtree
@@ -168,16 +176,16 @@ public class AVLTree implements Proj04Dictionary {
 	// set height
 	private int heightHelper(AVLNode node) {
 		if (node == null) {
-			return 0;
+			return -1;
 		}
-		node.height = Math.max(heightHelper(node.left), heightHelper(node.right));
-		return node.height + 1;
+		return node.height = Math.max(heightHelper(node.left), heightHelper(node.right)) + 1;
+		// return node.height + 1;
 	}
 
 	// get height
 	private int getHeight(AVLNode subtree) {
 		if (subtree == null) {
-			return -1;
+			return 0;
 		} else {
 			return subtree.height;
 		}

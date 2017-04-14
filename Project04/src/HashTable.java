@@ -10,13 +10,14 @@
  * The class is a data structure that is hash table
  */
 
+import java.util.ArrayList;
 import java.util.LinkedList;
 
 public class HashTable implements Proj04Dictionary {
 
 	// instance variable
 	// table can contains all linked list
-	private LinkedList<LinkedList<HashNode>> table;
+	private ArrayList<LinkedList<HashNode>> table;
 	// table size
 	private int tableSize = 1024;
 	// how many hash node we have
@@ -24,7 +25,7 @@ public class HashTable implements Proj04Dictionary {
 
 	// constructor
 	public HashTable() {
-		table = new LinkedList<LinkedList<HashNode>>();
+		table = new ArrayList<LinkedList<HashNode>>();
 		for (int i = 0; i < tableSize; i++) {
 			table.add(new LinkedList<HashNode>());
 		}
@@ -57,8 +58,8 @@ public class HashTable implements Proj04Dictionary {
 	// resize the table
 	private void resize() {
 		tableSize = tableSize * 2;
-		LinkedList<LinkedList<HashNode>> oldTable = table;
-		table = new LinkedList<LinkedList<HashNode>>();
+		ArrayList<LinkedList<HashNode>> oldTable = table;
+		table = new ArrayList<LinkedList<HashNode>>();
 		for (int i = 0; i < tableSize; i++) {
 			table.add(new LinkedList<HashNode>());
 		}
