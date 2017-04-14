@@ -43,14 +43,7 @@ public class AVLTree implements Proj04Dictionary {
 		} else if (subtree.key == key) {
 			throw new IllegalArgumentException();
 		}
-		// heightHelper(subtree);
 		subtree.height = 1 + Math.max(getHeight(subtree.left), getHeight(subtree.right));
-		// if (subtree != null) {
-		// subtree = rebalance(subtree);
-		// }
-		// subtree.height = 1 + Math.max(getHeight(subtree.left),
-		// getHeight(subtree.right));
-		// return subtree;
 		return rebalance(subtree);
 	}
 
@@ -87,12 +80,6 @@ public class AVLTree implements Proj04Dictionary {
 			}
 		}
 
-		// heightHelper(subtree);
-		// if (subtree != null) {
-		// subtree = rebalance(subtree);
-		// }
-		// heightHelper(subtree);
-		// return subtree;
 		if (subtree != null) {
 			subtree.height = 1 + Math.max(getHeight(subtree.left), getHeight(subtree.right));
 		}
@@ -173,19 +160,10 @@ public class AVLTree implements Proj04Dictionary {
 		return best;
 	}
 
-	// set height
-	private int heightHelper(AVLNode node) {
-		if (node == null) {
-			return -1;
-		}
-		return node.height = Math.max(heightHelper(node.left), heightHelper(node.right)) + 1;
-		// return node.height + 1;
-	}
-
 	// get height
 	private int getHeight(AVLNode subtree) {
 		if (subtree == null) {
-			return 0;
+			return -1;
 		} else {
 			return subtree.height;
 		}
@@ -193,7 +171,7 @@ public class AVLTree implements Proj04Dictionary {
 
 	// re balance the tree
 	private AVLNode rebalance(AVLNode node) {
-		if (node.left == null && node.right == null) {
+		if (node == null || node.left == null && node.right == null) {
 			// do nothing
 		}
 		// if there are more value in left, then rotate to the right.
