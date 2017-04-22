@@ -1,3 +1,4 @@
+
 /* class Proj05Edge
  *
  * Part of the Project 5 standard code.  This models a single edge in a
@@ -13,30 +14,24 @@
 
 import java.util.ArrayList;
 
-public class Proj05Edge
-{
+public class Proj05Edge {
 	// THESE FIELDS ARE REDUNTANT.
 	// Both are set by the insructor's code
 	Proj05Vertex toVrt;
-	int          toIndx;
-
+	int toIndx;
 
 	// this is the edge-specific info
 	int weight;
 
-
 	// students may use any of these fields for any purpose - there's
 	// no defined meaning for them.
-	public boolean      accBool;
-	public int          accInt;
-	public Object       accObj;
+	public boolean accBool;
+	public int accInt;
+	public Object accObj;
 
-
-	public Proj05Edge(Proj05Vertex vrt, int indx, int weight)
-	{
-		this.toVrt  = vrt;
+	public Proj05Edge(Proj05Vertex vrt, int indx, int weight) {
+		this.toVrt = vrt;
 		this.toIndx = indx;
 		this.weight = weight;
 	}
 }
-

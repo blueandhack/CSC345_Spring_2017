@@ -1,3 +1,4 @@
+
 /* class Proj05Vertex
  *
  * Part of the Project 5 standard code.  This models a single vertex in a
@@ -12,34 +13,27 @@
 
 import java.util.ArrayList;
 
-public class Proj05Vertex
-{
+public class Proj05Vertex {
 	// the instructor's code will fill out these two fields
 	public String name;
 	public ArrayList<Proj05Edge> outEdges;
 
-
 	// students may use any of these fields for any purpose - there's
 	// no defined meaning for them.
-	public boolean      accBool;
-	public int          accInt;
-	public Object       accObj;
+	public boolean accBool;
+	public int accInt;
+	public Object accObj;
 
-
-	public Proj05Vertex(String name)
-	{
-		this.name     = name;
+	public Proj05Vertex(String name) {
+		this.name = name;
 		this.outEdges = new ArrayList<Proj05Edge>();
 	}
 
-
 	/* utility method, for saerching through the edges. */
-	public boolean containsEdgeTo(Proj05Vertex other)
-	{
-		for (Proj05Edge e: outEdges)
+	public boolean containsEdgeTo(Proj05Vertex other) {
+		for (Proj05Edge e : outEdges)
 			if (e.toVrt == other)
 				return true;
 		return false;
 	}
 }
-
