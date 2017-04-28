@@ -12,8 +12,6 @@
  * (or not) as desired.
  */
 
-import java.util.ArrayList;
-
 public class Proj05Edge {
 	// THESE FIELDS ARE REDUNTANT.
 	// Both are set by the insructor's code
