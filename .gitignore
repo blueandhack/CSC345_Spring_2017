@@ -184,3 +184,6 @@ hs_err_pid*
 /Project04/src/Test_07_getSuccessor.java
 /Project04/src/Test_08_exceptions.java
 /Project04/src/Test_03_insertSearch.java
+/Project05/test_03_debugOnly_ten_fullyConnected_bidirectional.in
+*.in
+*.out
