@@ -9,6 +9,7 @@
  */
 
 import java.io.*;
+import java.util.ArrayList;
 
 public class Proj05StudentCode {
 	/*
@@ -16,7 +17,29 @@ public class Proj05StudentCode {
 	 * .dot file, which includes all of the information from the graph.
 	 */
 	public static void printDotFile(Proj05Vertex[] verts, String filename) throws IOException {
-		throw new RuntimeException("TODO");
+		StringBuffer strbuff = new StringBuffer();
+		strbuff.append("digraph {\n");
+
+		for (Proj05Vertex pv : verts) {
+			strbuff.append("  " + pv.name + ";\n");
+			if (pv.outEdges.size() != 0) {
+				for (Proj05Edge pe : pv.outEdges) {
+					int weight = pe.weight;
+					strbuff.append(
+							"    " + pv.name + " -> " + verts[pe.toIndx].name + " [label=" + weight + "]" + ";\n");
+				}
+			}
+		}
+		strbuff.append("}\n");
+
+		BufferedWriter writer = new BufferedWriter(new FileWriter(new File(filename)));
+		writer.write(strbuff.toString());
+
+		// flush the stream
+		writer.flush();
+
+		// close the stream
+		writer.close();
 	}
 
 	/*
@@ -28,7 +51,19 @@ public class Proj05StudentCode {
 	 * 'from' node, and get to the 'to' node.
 	 */
 	public static void reachable(Proj05Vertex[] verts, int fromIndx, int toIndx) {
-		throw new RuntimeException("TODO");
+		if (verts[fromIndx].outEdges.size() < 1) {
+			System.out.println("There is no path from " + verts[fromIndx] + " to " + verts[toIndx]);
+		} else {
+			String targrt = verts[toIndx].name;
+			// for(Proj05Edge pe: verts[fromIndx].outEdges){
+			//
+			// }
+
+			ArrayList<Proj05Vertex> toSave = new ArrayList<Proj05Vertex>();
+			toSave.add(verts[fromIndx]);
+
+			System.out.println(verts[fromIndx].outEdges.size());
+		}
 	}
 
 	/*
