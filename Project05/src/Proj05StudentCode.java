@@ -9,7 +9,7 @@
  */
 
 import java.io.*;
-import java.util.ArrayList;
+import java.util.Stack;
 
 public class Proj05StudentCode {
 	/*
@@ -51,19 +51,45 @@ public class Proj05StudentCode {
 	 * 'from' node, and get to the 'to' node.
 	 */
 	public static void reachable(Proj05Vertex[] verts, int fromIndx, int toIndx) {
-		if (verts[fromIndx].outEdges.size() < 1) {
-			System.out.println("There is no path from " + verts[fromIndx] + " to " + verts[toIndx]);
+		if (fromIndx == toIndx) {
+			System.out.println("Reachable: " + verts[fromIndx].name);
+		} else if (verts[fromIndx].outEdges.size() < 1) {
+			System.out.println("There is no path from " + verts[fromIndx].name + " to " + verts[toIndx].name);
 		} else {
-			String targrt = verts[toIndx].name;
-			// for(Proj05Edge pe: verts[fromIndx].outEdges){
-			//
+
+			// for (int i = 0; i < verts.length; i++) {
+			// verts[i].accObj = null;
 			// }
 
-			ArrayList<Proj05Vertex> toSave = new ArrayList<Proj05Vertex>();
-			toSave.add(verts[fromIndx]);
+			DFS(verts[fromIndx]);
+			Proj05Vertex v = verts[toIndx];
+			if (v.accObj == null) {
+				System.out.println("There is no path from " + verts[fromIndx].name + " to " + verts[toIndx].name);
+			} else {
+				Stack<String> vertName = new Stack<String>();
+				while (v.accObj != null) {
+					vertName.push(v.name);
+					v = (Proj05Vertex) v.accObj;
+				}
 
-			System.out.println(verts[fromIndx].outEdges.size());
+				String names = "Reachable: " + verts[fromIndx].name;
+				while (!vertName.isEmpty()) {
+					names = names + " -> " + vertName.pop();
+				}
+				System.out.println(names);
+			}
 		}
+	}
+
+	private static void DFS(Proj05Vertex v) {
+		v.accBool = true;
+		for (Proj05Edge e : v.outEdges) {
+			if (e.toVrt.accBool != true) {
+				e.toVrt.accObj = v;
+				DFS(e.toVrt);
+			}
+		}
+
 	}
 
 	/*
@@ -77,6 +103,65 @@ public class Proj05StudentCode {
 	 * optimal.
 	 */
 	public static void dijkstra(Proj05Vertex[] verts, int fromIndx, int toIndx) {
-		throw new RuntimeException("TODO");
+
+		if (fromIndx == toIndx) {
+			System.out.println("Dijkstra: len=0 " + verts[fromIndx].name);
+		} else {
+
+			IndexMinPQ<Integer> pq = new IndexMinPQ<>(verts.length);
+			for (int i = 0; i < verts.length; i++) {
+				if (i == fromIndx) {
+					pq.insert(i, 0);
+					verts[i].accInt = 0;
+				} else {
+					pq.insert(i, Integer.MAX_VALUE);
+					verts[i].accInt = Integer.MAX_VALUE;
+				}
+			}
+
+			while (!pq.isEmpty()) {
+				int index = pq.delMin();
+				Proj05Vertex v = verts[index];
+				// System.out.println(index + " " + v.name + " " + v.accInt);
+				if (v.accInt != Integer.MAX_VALUE) {
+					for (Proj05Edge e : v.outEdges) {
+
+						int eIndex = 0;
+
+						for (int i = 0; i < verts.length; i++) {
+							if (verts[i].name.equals(e.toVrt.name)) {
+								eIndex = i;
+							}
+						}
+
+						if (verts[eIndex].accInt > v.accInt + e.weight) {
+							e.toVrt.accObj = v;
+							e.toVrt.accInt = v.accInt + e.weight;
+							pq.changeKey(eIndex, e.toVrt.accInt);
+						}
+					}
+				}
+			}
+
+			Proj05Vertex v = verts[toIndx];
+
+			if (v.accObj == null || v.accInt == Integer.MAX_VALUE) {
+				System.out.println("There is no path from " + verts[fromIndx].name + " to " + verts[toIndx].name);
+			} else {
+				Stack<String> vertName = new Stack<String>();
+				while (v.accObj != null) {
+					vertName.push(v.name);
+					v = (Proj05Vertex) v.accObj;
+				}
+
+				String names = "Dijkstra: len=" + verts[toIndx].accInt + " " + verts[fromIndx].name;
+				while (!vertName.isEmpty()) {
+					names = names + " -> " + vertName.pop();
+				}
+				System.out.println(names);
+			}
+			// System.out.println(verts[toIndx].accInt);
+		}
+
 	}
 }

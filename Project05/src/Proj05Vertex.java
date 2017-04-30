@@ -29,7 +29,7 @@ public class Proj05Vertex {
 		this.outEdges = new ArrayList<Proj05Edge>();
 	}
 
-	/* utility method, for saerching through the edges. */
+	/* utility method, for searching through the edges. */
 	public boolean containsEdgeTo(Proj05Vertex other) {
 		for (Proj05Edge e : outEdges)
 			if (e.toVrt == other)
