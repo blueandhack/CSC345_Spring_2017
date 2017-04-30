@@ -57,17 +57,23 @@ public class Proj05StudentCode {
 			System.out.println("There is no path from " + verts[fromIndx].name + " to " + verts[toIndx].name);
 		} else {
 
-			// for (int i = 0; i < verts.length; i++) {
-			// verts[i].accObj = null;
-			// }
+			for (int i = 0; i < verts.length; i++) {
+				verts[i].accObj = null;
+				verts[i].accBool = false;
+			}
 
 			DFS(verts[fromIndx]);
+
 			Proj05Vertex v = verts[toIndx];
+
 			if (v.accObj == null) {
 				System.out.println("There is no path from " + verts[fromIndx].name + " to " + verts[toIndx].name);
 			} else {
 				Stack<String> vertName = new Stack<String>();
 				while (v.accObj != null) {
+					if (v.name.equals(verts[fromIndx].name)) {
+						break;
+					}
 					vertName.push(v.name);
 					v = (Proj05Vertex) v.accObj;
 				}
@@ -78,6 +84,7 @@ public class Proj05StudentCode {
 				}
 				System.out.println(names);
 			}
+
 		}
 	}
 
@@ -117,12 +124,12 @@ public class Proj05StudentCode {
 					pq.insert(i, Integer.MAX_VALUE);
 					verts[i].accInt = Integer.MAX_VALUE;
 				}
+				verts[i].accObj = null;
 			}
 
 			while (!pq.isEmpty()) {
 				int index = pq.delMin();
 				Proj05Vertex v = verts[index];
-				// System.out.println(index + " " + v.name + " " + v.accInt);
 				if (v.accInt != Integer.MAX_VALUE) {
 					for (Proj05Edge e : v.outEdges) {
 
@@ -150,6 +157,9 @@ public class Proj05StudentCode {
 			} else {
 				Stack<String> vertName = new Stack<String>();
 				while (v.accObj != null) {
+					if (v.name.equals(verts[fromIndx].name)) {
+						break;
+					}
 					vertName.push(v.name);
 					v = (Proj05Vertex) v.accObj;
 				}
@@ -160,7 +170,6 @@ public class Proj05StudentCode {
 				}
 				System.out.println(names);
 			}
-			// System.out.println(verts[toIndx].accInt);
 		}
 
 	}
