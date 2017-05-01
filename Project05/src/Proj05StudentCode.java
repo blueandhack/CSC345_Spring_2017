@@ -20,6 +20,7 @@ public class Proj05StudentCode {
 		StringBuffer strbuff = new StringBuffer();
 		strbuff.append("digraph {\n");
 
+		// traversal verts and get edges, then put them to a string buffer.
 		for (Proj05Vertex pv : verts) {
 			strbuff.append("  " + pv.name + ";\n");
 			if (pv.outEdges.size() != 0) {
@@ -32,6 +33,7 @@ public class Proj05StudentCode {
 		}
 		strbuff.append("}\n");
 
+		// write the string buffer to file.
 		BufferedWriter writer = new BufferedWriter(new FileWriter(new File(filename)));
 		writer.write(strbuff.toString());
 
@@ -57,19 +59,26 @@ public class Proj05StudentCode {
 			System.out.println("There is no path from " + verts[fromIndx].name + " to " + verts[toIndx].name);
 		} else {
 
+			// initialization for verts
 			for (int i = 0; i < verts.length; i++) {
 				verts[i].accObj = null;
 				verts[i].accBool = false;
 			}
 
+			// use DFS helper method
 			DFS(verts[fromIndx]);
 
 			Proj05Vertex v = verts[toIndx];
 
 			if (v.accObj == null) {
+				// if last vertex does not have parent vertex, then it does not
+				// have a path between fromIndex and toIndex.
 				System.out.println("There is no path from " + verts[fromIndx].name + " to " + verts[toIndx].name);
 			} else {
+				// from toIndex vertex to fromIndex, so we should put names to
+				// stack, then it will print correct order.
 				Stack<String> vertName = new Stack<String>();
+
 				while (v.accObj != null) {
 					if (v.name.equals(verts[fromIndx].name)) {
 						break;
@@ -82,12 +91,14 @@ public class Proj05StudentCode {
 				while (!vertName.isEmpty()) {
 					names = names + " -> " + vertName.pop();
 				}
+
 				System.out.println(names);
 			}
 
 		}
 	}
 
+	// this method use DFS algorithm to find a path.
 	private static void DFS(Proj05Vertex v) {
 		v.accBool = true;
 		for (Proj05Edge e : v.outEdges) {
@@ -117,6 +128,8 @@ public class Proj05StudentCode {
 			System.out.println("There is no path from " + verts[fromIndx].name + " to " + verts[toIndx].name);
 		} else {
 			IndexMinPQ<Integer> pq = new IndexMinPQ<>(verts.length);
+
+			// initialization for verts
 			for (int i = 0; i < verts.length; i++) {
 				if (i == fromIndx) {
 					pq.insert(i, 0);
@@ -128,20 +141,24 @@ public class Proj05StudentCode {
 				verts[i].accObj = null;
 			}
 
+			// the loop will help to find a path between fromIndex and toIndex.
 			while (!pq.isEmpty()) {
+				// remove and return best vertex
 				int index = pq.delMin();
 				Proj05Vertex v = verts[index];
 				if (v.accInt != Integer.MAX_VALUE) {
+					// get all of neighbors
 					for (Proj05Edge e : v.outEdges) {
-
 						int eIndex = 0;
 
+						// find the index in the vertices.
 						for (int i = 0; i < verts.length; i++) {
 							if (verts[i].name.equals(e.toVrt.name)) {
 								eIndex = i;
 							}
 						}
 
+						// if the vertex's path is big, then change it.
 						if (verts[eIndex].accInt > v.accInt + e.weight) {
 							e.toVrt.accObj = v;
 							e.toVrt.accInt = v.accInt + e.weight;
@@ -154,8 +171,12 @@ public class Proj05StudentCode {
 			Proj05Vertex v = verts[toIndx];
 
 			if (v.accObj == null || v.accInt == Integer.MAX_VALUE) {
+				// if last vertex does not have parent vertex, then it does not
+				// have a path between fromIndex and toIndex.
 				System.out.println("There is no path from " + verts[fromIndx].name + " to " + verts[toIndx].name);
 			} else {
+				// from toIndex vertex to fromIndex, so we should put names to
+				// stack, then it will print correct order.
 				Stack<String> vertName = new Stack<String>();
 				while (v.accObj != null) {
 					if (v.name.equals(verts[fromIndx].name)) {
