@@ -157,20 +157,11 @@ public class Proj05StudentCode {
 				if (v.accInt != Integer.MAX_VALUE) {
 					// get all of neighbors
 					for (Proj05Edge e : v.outEdges) {
-						int eIndex = 0;
-
-						// find the index in the vertices.
-						for (int i = 0; i < verts.length; i++) {
-							if (verts[i].name.equals(e.toVrt.name)) {
-								eIndex = i;
-							}
-						}
-
 						// if the vertex's path is big, then change it.
-						if (verts[eIndex].accInt > v.accInt + e.weight) {
+						if (verts[e.toIndx].accInt > v.accInt + e.weight) {
 							e.toVrt.accObj = v;
 							e.toVrt.accInt = v.accInt + e.weight;
-							pq.changeKey(eIndex, e.toVrt.accInt);
+							pq.changeKey(e.toIndx, e.toVrt.accInt);
 						}
 					}
 				}
