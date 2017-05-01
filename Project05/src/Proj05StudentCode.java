@@ -54,8 +54,11 @@ public class Proj05StudentCode {
 	 */
 	public static void reachable(Proj05Vertex[] verts, int fromIndx, int toIndx) {
 		if (fromIndx == toIndx) {
+			// if fromIndex equals toIndex, then the path is itself.
 			System.out.println("Reachable: " + verts[fromIndx].name);
 		} else if (verts[fromIndx].outEdges.size() < 1) {
+			// if the vertex does not have edges, then the vertex is island. So,
+			// no path.
 			System.out.println("There is no path from " + verts[fromIndx].name + " to " + verts[toIndx].name);
 		} else {
 
@@ -123,8 +126,11 @@ public class Proj05StudentCode {
 	public static void dijkstra(Proj05Vertex[] verts, int fromIndx, int toIndx) {
 
 		if (fromIndx == toIndx) {
+			// if the fromIndex equals toIndex, then the path is itself.
 			System.out.println("Dijkstra: len=0 " + verts[fromIndx].name);
 		} else if (verts[fromIndx].outEdges.size() < 1) {
+			// if the vertex does not have edges, then the vertex is island. So,
+			// no path.
 			System.out.println("There is no path from " + verts[fromIndx].name + " to " + verts[toIndx].name);
 		} else {
 			IndexMinPQ<Integer> pq = new IndexMinPQ<>(verts.length);
@@ -146,6 +152,8 @@ public class Proj05StudentCode {
 				// remove and return best vertex
 				int index = pq.delMin();
 				Proj05Vertex v = verts[index];
+				// if the vertex does not an island (no one direct it), then to
+				// check the path.
 				if (v.accInt != Integer.MAX_VALUE) {
 					// get all of neighbors
 					for (Proj05Edge e : v.outEdges) {
