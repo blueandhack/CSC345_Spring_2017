@@ -113,8 +113,9 @@ public class Proj05StudentCode {
 
 		if (fromIndx == toIndx) {
 			System.out.println("Dijkstra: len=0 " + verts[fromIndx].name);
+		} else if (verts[fromIndx].outEdges.size() < 1) {
+			System.out.println("There is no path from " + verts[fromIndx].name + " to " + verts[toIndx].name);
 		} else {
-
 			IndexMinPQ<Integer> pq = new IndexMinPQ<>(verts.length);
 			for (int i = 0; i < verts.length; i++) {
 				if (i == fromIndx) {
