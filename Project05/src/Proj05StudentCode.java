@@ -51,6 +51,8 @@ public class Proj05StudentCode {
 	 * The 'fromIndx' and 'toIndx' are the indices, in the verts[] array
 	 * parameter, of the endpoints of the search. The path must start at the
 	 * 'from' node, and get to the 'to' node.
+	 * 
+	 * The idea from 19_graphs_in_code page 93
 	 */
 	public static void reachable(Proj05Vertex[] verts, int fromIndx, int toIndx) {
 		if (fromIndx == toIndx) {
@@ -71,9 +73,9 @@ public class Proj05StudentCode {
 			// use DFS helper method
 			DFS(verts[fromIndx]);
 
-			Proj05Vertex v = verts[toIndx];
+			Proj05Vertex vertex = verts[toIndx];
 
-			if (v.accObj == null) {
+			if (vertex.accObj == null) {
 				// if last vertex does not have parent vertex, then it does not
 				// have a path between fromIndex and toIndex.
 				System.out.println("There is no path from " + verts[fromIndx].name + " to " + verts[toIndx].name);
@@ -82,12 +84,12 @@ public class Proj05StudentCode {
 				// stack, then it will print correct order.
 				Stack<String> vertName = new Stack<String>();
 
-				while (v.accObj != null) {
-					if (v.name.equals(verts[fromIndx].name)) {
+				while (vertex.accObj != null) {
+					if (vertex.name.equals(verts[fromIndx].name)) {
 						break;
 					}
-					vertName.push(v.name);
-					v = (Proj05Vertex) v.accObj;
+					vertName.push(vertex.name);
+					vertex = (Proj05Vertex) vertex.accObj;
 				}
 
 				String names = "Reachable: " + verts[fromIndx].name;
@@ -102,12 +104,15 @@ public class Proj05StudentCode {
 	}
 
 	// this method use DFS algorithm to find a path.
-	private static void DFS(Proj05Vertex v) {
-		v.accBool = true;
-		for (Proj05Edge e : v.outEdges) {
-			if (e.toVrt.accBool != true) {
-				e.toVrt.accObj = v;
-				DFS(e.toVrt);
+	private static void DFS(Proj05Vertex vertex) {
+		// search from v
+		vertex.accBool = true;
+		// visit the unvisited
+		for (Proj05Edge edge : vertex.outEdges) {
+			if (edge.toVrt.accBool != true) {
+				// store the link toward fromIndex
+				edge.toVrt.accObj = vertex;
+				DFS(edge.toVrt);
 			}
 		}
 
@@ -122,6 +127,8 @@ public class Proj05StudentCode {
 	 * parameter, of the endpoints of the search. The path must start at the
 	 * 'from' node, and get to the 'to' node. And, of course, it must also be
 	 * optimal.
+	 * 
+	 * The pseudo code from 20_graph_algs page 257
 	 */
 	public static void dijkstra(Proj05Vertex[] verts, int fromIndx, int toIndx) {
 
@@ -151,17 +158,18 @@ public class Proj05StudentCode {
 			while (!pq.isEmpty()) {
 				// remove and return best vertex
 				int index = pq.delMin();
-				Proj05Vertex v = verts[index];
+				Proj05Vertex vertex = verts[index];
 				// if the vertex does not an island (no one direct it), then to
 				// check the path.
-				if (v.accInt != Integer.MAX_VALUE) {
+				if (vertex.accInt != Integer.MAX_VALUE) {
 					// get all of neighbors
-					for (Proj05Edge e : v.outEdges) {
+					for (Proj05Edge edege : vertex.outEdges) {
 						// if the vertex's path is big, then change it.
-						if (verts[e.toIndx].accInt > v.accInt + e.weight) {
-							e.toVrt.accObj = v;
-							e.toVrt.accInt = v.accInt + e.weight;
-							pq.changeKey(e.toIndx, e.toVrt.accInt);
+						if (verts[edege.toIndx].accInt > vertex.accInt + edege.weight) {
+							edege.toVrt.accObj = vertex;
+							edege.toVrt.accInt = vertex.accInt + edege.weight;
+							// update vertex's priority in q, also.
+							pq.changeKey(edege.toIndx, edege.toVrt.accInt);
 						}
 					}
 				}
@@ -185,6 +193,7 @@ public class Proj05StudentCode {
 					v = (Proj05Vertex) v.accObj;
 				}
 
+				// store the result to a string and print it.
 				String names = "Dijkstra: len=" + verts[toIndx].accInt + " " + verts[fromIndx].name;
 				while (!vertName.isEmpty()) {
 					names = names + " -> " + vertName.pop();
