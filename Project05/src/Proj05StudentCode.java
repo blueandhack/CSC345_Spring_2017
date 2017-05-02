@@ -6,6 +6,12 @@
  *
  * Skeleton code: Russell Lewis
  * Author:        Yujia Lin
+ * CSc 345 Spring 2017 - Project05
+ * 
+ * This file contains three function that are printDotFile, reachable and dijkstra.
+ * So, the printDotFile will output the graph to a file,
+ * reachable will check a vertex to other vertex's path,
+ * and dijkstra will find the short path between a vertex to other vertex. 
  */
 
 import java.io.*;
@@ -21,13 +27,13 @@ public class Proj05StudentCode {
 		strbuff.append("digraph {\n");
 
 		// traversal verts and get edges, then put them to a string buffer.
-		for (Proj05Vertex pv : verts) {
-			strbuff.append("  " + pv.name + ";\n");
-			if (pv.outEdges.size() != 0) {
-				for (Proj05Edge pe : pv.outEdges) {
-					int weight = pe.weight;
-					strbuff.append(
-							"    " + pv.name + " -> " + verts[pe.toIndx].name + " [label=" + weight + "]" + ";\n");
+		for (Proj05Vertex vertex : verts) {
+			strbuff.append("  " + vertex.name + ";\n");
+			if (vertex.outEdges.size() != 0) {
+				for (Proj05Edge edge : vertex.outEdges) {
+					int weight = edge.weight;
+					strbuff.append("    " + vertex.name + " -> " + verts[edge.toIndx].name + " [label=" + weight + "]"
+							+ ";\n");
 				}
 			}
 		}
